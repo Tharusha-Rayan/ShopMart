@@ -1,0 +1,140 @@
+﻿.profile-page {
+  padding: var(--spacing-2xl) 0;
+  min-height: calc(100vh - 70px);
+}
+
+.profile-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--text-dark);
+}
+
+.profile-tabs {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-2xl);
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.profile-tabs button {
+  background: none;
+  border: none;
+  padding: var(--spacing-md) 1.5rem;
+  font-size: var(--spacing-md);
+  font-weight: 600;
+  color: var(--text-gray);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.profile-tabs button:hover {
+  color: var(--primary-blue);
+}
+
+.profile-tabs button.active {
+  color: var(--primary-blue);
+}
+
+.profile-tabs button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-orange);
+}
+
+.profile-content {
+  max-width: 600px;
+}
+
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-2xl);
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--spacing-2xl);
+  font-weight: 700;
+  color: white;
+}
+
+.profile-avatar h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-dark);
+}
+
+.user-role {
+  color: var(--text-gray);
+  text-transform: capitalize;
+  font-size: 0.95rem;
+}
+
+.success-alert {
+  background: rgba(67, 160, 71, 0.1);
+  color: var(--success-green);
+  padding: var(--spacing-md);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--success-green);
+}
+
+.error-alert {
+  background: rgba(229, 57, 53, 0.1);
+  color: var(--highlight-red);
+  padding: var(--spacing-md);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--highlight-red);
+}
+
+.profile-content form h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.bio-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border-gray);
+  border-radius: 8px;
+  font-size: var(--spacing-md);
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.bio-textarea:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+}
+

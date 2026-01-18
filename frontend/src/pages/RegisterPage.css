@@ -1,0 +1,56 @@
+﻿.auth-features {
+  margin-top: 3rem;
+}
+
+.auth-feature {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.feature-icon {
+  font-size: 1.5rem;
+  margin-right: var(--spacing-md);
+  color: var(--accent-orange);
+}
+
+.role-selection {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+}
+
+.role-option {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-gray);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.role-option:hover {
+  border-color: var(--primary-blue);
+  background: rgba(30, 136, 229, 0.02);
+}
+
+.role-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-blue);
+}
+
+.role-option input[type="radio"]:checked + span {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.role-option span {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+

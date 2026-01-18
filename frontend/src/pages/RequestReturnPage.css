@@ -1,0 +1,242 @@
+﻿.request-return-page {
+  padding: var(--spacing-2xl) 0;
+  min-height: calc(100vh - 70px);
+}
+
+.request-return-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-dark);
+}
+
+.order-info {
+  color: var(--text-gray);
+  margin-bottom: var(--spacing-2xl);
+  font-size: 1.var(--spacing-md);
+}
+
+.return-info-banner {
+  background: #FFF3E0;
+  border-left: 4px solid var(--color-secondary-500);
+  padding: 1.5rem;
+  margin-bottom: var(--spacing-2xl);
+  border-radius: 8px;
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.return-info-banner svg {
+  font-size: 1.5rem;
+  color: var(--color-secondary-500);
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.return-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-2xl);
+}
+
+.return-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Items List */
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.return-item {
+  border: 2px solid var(--border-gray);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.return-item.selected {
+  border-color: var(--accent-orange);
+  background: #FFF8F0;
+}
+
+.item-checkbox {
+  display: block;
+  cursor: pointer;
+  padding: var(--spacing-md);
+}
+
+.item-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: var(--spacing-md);
+}
+
+.item-content {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.item-content img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-details h4 {
+  font-size: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-dark);
+}
+
+.item-details p {
+  color: var(--text-gray);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.item-price {
+  color: var(--accent-orange);
+  font-weight: 600;
+  font-size: var(--spacing-md) !important;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.form-group small {
+  display: block;
+  margin-top: var(--spacing-sm);
+  color: var(--text-gray);
+  font-size: 0.875rem;
+}
+
+.return-select,
+.return-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border-gray);
+  border-radius: 8px;
+  font-size: var(--spacing-md);
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.return-select:focus,
+.return-textarea:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+}
+
+.return-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Sidebar */
+.return-sidebar h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.summary-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--spacing-md);
+  color: var(--text-dark);
+}
+
+.summary-row .amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-orange);
+}
+
+.refund-note {
+  background: #f5f5f5;
+  padding: var(--spacing-md);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.refund-note p {
+  font-size: 0.875rem;
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.refund-note strong {
+  color: var(--text-dark);
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  padding: 3rem var(--spacing-2xl);
+}
+
+.error-icon {
+  font-size: 4rem;
+  color: var(--text-gray);
+  margin-bottom: var(--spacing-md);
+}
+
+.error-state h2 {
+  font-size: 1.75rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-dark);
+}
+
+.error-state p {
+  color: var(--text-gray);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .return-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .request-return-page h1 {
+    font-size: var(--spacing-2xl);
+  }
+
+  .item-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-content img {
+    width: 100%;
+    height: 200px;
+  }
+}
+

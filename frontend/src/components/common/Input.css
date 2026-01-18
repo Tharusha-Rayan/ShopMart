@@ -1,0 +1,71 @@
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.input-label .required {
+  color: var(--highlight-red);
+  margin-left: 2px;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--border-gray);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-input.has-icon {
+  padding-left: 2.75rem;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-gray);
+  font-size: 1.2rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  background: rgba(30, 136, 229, 0.02);
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+}
+
+.form-input.input-error {
+  border-color: var(--highlight-red);
+}
+
+.form-input.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+}
+
+.form-input:disabled {
+  background: var(--background-light);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.error-message {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--highlight-red);
+  font-size: 0.875rem;
+}

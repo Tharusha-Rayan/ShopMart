@@ -1,0 +1,109 @@
+.input {
+  width: 100%;
+  margin-bottom: var(--spacing-md);
+}
+
+.input__label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-neutral-700);
+}
+
+.input__required {
+  color: var(--color-danger);
+  margin-left: 0.25rem;
+}
+
+.input__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input__field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--color-neutral-300);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-900);
+  background: var(--color-white);
+  transition: all var(--transition-base);
+}
+
+.input__field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-100);
+}
+
+.input__field:disabled {
+  background: var(--color-neutral-100);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.input__field::placeholder {
+  color: var(--color-neutral-400);
+}
+
+/* With Icon */
+.input__field--with-icon {
+  padding-left: 3rem;
+}
+
+.input__icon {
+  position: absolute;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-neutral-500);
+  pointer-events: none;
+}
+
+/* Error State */
+.input__field--error {
+  border-color: var(--color-danger);
+}
+
+.input__field--error:focus {
+  box-shadow: 0 0 0 3px var(--color-danger-100);
+}
+
+.input__error {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+}
+
+/* Input Variants */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .input__field {
+    padding: 0.625rem 0.875rem;
+    font-size: var(--font-size-sm);
+  }
+  
+  .input__field--with-icon {
+    padding-left: 2.75rem;
+  }
+  
+  .input__icon {
+    left: 0.875rem;
+  }
+}

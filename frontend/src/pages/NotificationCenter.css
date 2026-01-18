@@ -1,0 +1,126 @@
+﻿.notification-center {
+  padding: var(--spacing-2xl) 0;
+  min-height: calc(100vh - 70px);
+}
+
+.notification-center h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--text-dark);
+}
+
+.notifications-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.notification-item.unread {
+  border-left-color: var(--accent-orange);
+  background: rgba(251, 140, 0, 0.02);
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content h3 {
+  font-size: 1.var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-dark);
+}
+
+.notification-content p {
+  color: var(--text-gray);
+  margin-bottom: var(--spacing-sm);
+}
+
+.notification-time {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+.notification-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.mark-read-btn {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mark-read-btn:hover {
+  background: var(--primary-blue-dark);
+}
+
+.delete-btn {
+  padding: var(--spacing-sm);
+  background: none;
+  border: none;
+  color: var(--highlight-red);
+  font-size: 1.var(--spacing-2xl);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: rgba(229, 57, 53, 0.1);
+}
+
+.notifications-empty {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notifications-empty .container {
+  text-align: center;
+}
+
+.notifications-empty .empty-icon {
+  font-size: 6rem;
+  color: var(--text-gray);
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.notifications-empty h2 {
+  font-size: var(--spacing-2xl);
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-dark);
+}
+
+.notifications-empty p {
+  color: var(--text-gray);
+}
+
+@media (max-width: 768px) {
+  .notification-item {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .notification-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+

@@ -1,0 +1,40 @@
+﻿.wishlist-page {
+  padding: var(--spacing-2xl) 0;
+  min-height: calc(100vh - 70px);
+}
+
+.wishlist-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--text-dark);
+}
+
+.wishlist-empty {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishlist-empty .container {
+  text-align: center;
+}
+
+.wishlist-empty .empty-icon {
+  font-size: 6rem;
+  color: var(--accent-orange);
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.wishlist-empty h2 {
+  font-size: var(--spacing-2xl);
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-dark);
+}
+
+.wishlist-empty p {
+  color: var(--text-gray);
+  margin-bottom: var(--spacing-2xl);
+}
+

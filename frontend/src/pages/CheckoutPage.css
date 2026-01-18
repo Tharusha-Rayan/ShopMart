@@ -1,0 +1,225 @@
+﻿.checkout-page {
+  padding: var(--spacing-2xl) 0;
+  min-height: calc(100vh - 70px);
+}
+
+.checkout-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--text-dark);
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: var(--spacing-2xl);
+}
+
+.checkout-forms {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.checkout-forms h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.payment-option {
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-gray);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.payment-option:hover {
+  border-color: var(--primary-blue);
+  background: rgba(30, 136, 229, 0.02);
+}
+
+.payment-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-blue);
+}
+
+.payment-option span {
+  font-size: var(--spacing-md);
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.shipping-methods {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.shipping-method {
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-gray);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.shipping-method:hover {
+  border-color: var(--accent-orange);
+  background: rgba(251, 140, 0, 0.02);
+}
+
+.shipping-method input[type="radio"]:checked ~ .shipping-method-info,
+.shipping-method:has(input[type="radio"]:checked) {
+  border-color: var(--accent-orange);
+  background: rgba(251, 140, 0, 0.05);
+}
+
+.shipping-method input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent-orange);
+  flex-shrink: 0;
+}
+
+.shipping-method-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.shipping-method-info strong {
+  color: var(--text-dark);
+  font-size: var(--spacing-md);
+}
+
+.shipping-time {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+.shipping-cost {
+  font-size: 1.var(--spacing-2xl);
+  font-weight: 700;
+  color: var(--accent-orange);
+}
+
+.order-summary-section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.order-items {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.summary-item {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  align-items: center;
+}
+
+.summary-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.summary-item-details {
+  flex: 1;
+}
+
+.summary-item-details p {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text-dark);
+}
+
+.summary-item-details span {
+  font-size: 0.9rem;
+  color: var(--text-gray);
+}
+
+.summary-item-price {
+  font-weight: 700;
+  color: var(--primary-blue);
+}
+
+.summary-totals {
+  margin-bottom: 1.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-size: var(--spacing-md);
+  color: var(--text-gray);
+}
+
+.summary-row.total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  padding-top: 0.75rem;
+  border-top: 2px solid var(--border-gray);
+  margin-top: 0.75rem;
+}
+
+.checkout-empty {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.checkout-empty h2 {
+  font-size: var(--spacing-2xl);
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+@media (max-width: 1024px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
