@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FiShoppingCart, FiHeart, FiBell, FiUser, FiSearch, FiMenu, FiX, FiLayout, FiShoppingBag } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 import { useNotification } from '../../context/NotificationContext';
 import './Navbar.css';
 
@@ -12,6 +13,7 @@ const Navbar = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const { user, logout } = useAuth();
   const { getCartCount } = useCart();
+  const { getWishlistCount } = useWishlist();
   const { unreadCount } = useNotification();
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ const Navbar = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/products?search=${searchQuery}`);
-      setSearchQuery('');
+      // Keep the search query in the input field
     }
   };
 
@@ -52,6 +54,9 @@ const Navbar = () => {
         <div className="navbar-actions">
           <Link to="/wishlist" className="navbar-icon-btn">
             <FiHeart />
+            {getWishlistCount() > 0 && (
+              <span className="badge badge-red">{getWishlistCount()}</span>
+            )}
           </Link>
 
           <Link to="/notifications" className="navbar-icon-btn">
@@ -143,7 +148,7 @@ const Navbar = () => {
             All Products
           </Link>
           <Link to="/wishlist" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
-            Wishlist
+            Wishlist {getWishlistCount() > 0 && `(${getWishlistCount()})`}
           </Link>
           <Link to="/cart" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
             Cart {getCartCount() > 0 && `(${getCartCount()})`}

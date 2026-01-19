@@ -85,12 +85,18 @@ export const WishlistProvider = ({ children }) => {
     return wishlist.some(item => item._id === productId);
   };
 
+  const getWishlistCount = () => {
+    return wishlist.length;
+  };
+
   const value = {
     wishlist,
     loading,
     addToWishlist,
     removeFromWishlist,
     isInWishlist,
+    getWishlistCount,
+    wishlistCount: wishlist.length,
     refreshWishlist: fetchWishlist
   };
 

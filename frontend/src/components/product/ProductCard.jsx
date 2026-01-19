@@ -58,8 +58,13 @@ const ProductCard = ({ product }) => {
 
       <div className="product-image-wrapper">
         <img 
-          src={product.images?.[0]?.url || `https://source.unsplash.com/400x400/?${encodeURIComponent(product.category?.name || 'product')},${encodeURIComponent(product.name?.split(' ')[0] || 'shopping')}`} 
-          alt={product.name}
+          src={
+            product.images?.[0]?.url || 
+            product.images?.[0] || 
+            (typeof product.images === 'string' ? product.images : null) ||
+            `https://source.unsplash.com/400x400/?${encodeURIComponent(product.category?.name || 'product')},${encodeURIComponent(product.name?.split(' ')[0] || 'shopping')}`
+          } 
+          alt={product.name || 'Product'}
           className="product-image"
           loading="lazy"
           onError={(e) => {

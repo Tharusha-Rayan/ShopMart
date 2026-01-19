@@ -98,24 +98,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Newsletter */}
-      <section className="newsletter-section">
-        <div className="container">
-          <div className="newsletter-content">
-            <h2><MailIcon /> Subscribe to Our Newsletter</h2>
-            <p>Get the latest deals and updates delivered to your inbox</p>
-            <form className="newsletter-form">
-              <input 
-                type="email" 
-                placeholder="Enter your email address" 
-                className="newsletter-input"
-              />
-              <Button variant="primary" type="submit">Subscribe</Button>
-            </form>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

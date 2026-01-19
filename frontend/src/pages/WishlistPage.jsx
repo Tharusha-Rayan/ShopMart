@@ -27,10 +27,13 @@ const WishlistPage = () => {
   return (
     <div className="wishlist-page">
       <div className="container">
-        <h1>My Wishlist ({wishlist.length} items)</h1>
-        <div className="products-grid">
+        <div className="wishlist-header">
+          <h1>My Wishlist</h1>
+          <p className="wishlist-count">{wishlist.length} {wishlist.length === 1 ? 'item' : 'items'}</p>
+        </div>
+        <div className="wishlist-products-grid">
           {wishlist.map((product) => (
-            <ProductCard key={product._id} product={product} />
+            <ProductCard key={product._id || product.id} product={product} />
           ))}
         </div>
       </div>
