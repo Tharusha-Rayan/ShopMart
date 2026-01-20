@@ -43,7 +43,10 @@ const LoadingSpinner = () => (
   </div>
 );
 
+
+
 function App() {
+
   return (
     <Router>
       <AuthProvider>
@@ -65,6 +68,7 @@ function App() {
                   theme="light"
                 />
                 <main>
+                  
                   <Suspense fallback={<LoadingSpinner />}>
                     <Routes>
                       <Route path="/" element={<HomePage />} />
