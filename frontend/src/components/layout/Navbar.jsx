@@ -212,7 +212,7 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiShoppingCart, FiHeart, FiBell, FiUser, FiSearch, FiMenu, FiX, FiLayout, FiShoppingBag } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
@@ -225,11 +225,46 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const userMenuRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const mobileToggleRef = useRef(null);
   const { user, logout } = useAuth();
   const { getCartCount } = useCart();
   const { getWishlistCount } = useWishlist();
   const { unreadCount } = useNotification();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserDropdownOpen(false);
+      }
+
+      const clickedInsideMobileMenu = mobileMenuRef.current && mobileMenuRef.current.contains(event.target);
+      const clickedMobileToggle = mobileToggleRef.current && mobileToggleRef.current.contains(event.target);
+
+      if (!clickedInsideMobileMenu && !clickedMobileToggle) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape') {
+        setUserDropdownOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleDocumentClick);
+    document.addEventListener('touchstart', handleDocumentClick);
+    document.addEventListener('keydown', handleEscapeKey);
+
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentClick);
+      document.removeEventListener('touchstart', handleDocumentClick);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -300,7 +335,7 @@ const Navbar = () => {
           )}
 
           {user ? (
-            <div className="navbar-user-menu">
+            <div className="navbar-user-menu" ref={userMenuRef}>
               <button className="navbar-icon-btn" onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
                 <div className="profileicon">
                   <span className="username">
@@ -346,6 +381,7 @@ const Navbar = () => {
 
         {/* Mobile Hamburger */}
         <button
+          ref={mobileToggleRef}
           className="navbar-mobile-toggle"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle navigation menu"
@@ -356,7 +392,7 @@ const Navbar = () => {
 
       {/* Mobile Sidebar Menu */}
       {mobileMenuOpen && (
-        <div className="navbar-mobile-menu">
+        <div className="navbar-mobile-menu" ref={mobileMenuRef}>
           <Link to="/products" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
             All Products
           </Link>
