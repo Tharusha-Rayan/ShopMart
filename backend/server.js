@@ -19,6 +19,7 @@ const app = express();
 app.use(helmet());
 
 // CORS configuration
+
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true
@@ -48,6 +49,7 @@ app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/seller', require('./routes/sellerRoutes'));
+app.use('/api/ai', require('./ai/routes/aiEventRoutes'));
 
 // Health check
 app.get('/health', (req, res) => {

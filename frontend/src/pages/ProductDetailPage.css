@@ -52,9 +52,10 @@
   transition: all 0.3s ease;
 }
 
+/* Wishlist - Blue theme (not orange) */
 .wishlist-btn:hover,
 .wishlist-btn.active {
-  color: var(--accent-orange);
+  color: var(--color-primary-600);
   transform: scale(1.1);
 }
 
@@ -74,9 +75,10 @@
   transition: all 0.3s ease;
 }
 
+/* Image thumbnails - Blue theme (not orange) */
 .image-thumbnails img:hover,
 .image-thumbnails img.active {
-  border-color: var(--accent-orange);
+  border-color: var(--color-primary-600);
 }
 
 .product-title {
@@ -102,9 +104,10 @@
   font-size: 1.var(--spacing-2xl);
 }
 
+/* Rating stars - GOLD (not orange) */
 .stars svg.filled {
-  color: var(--accent-orange);
-  fill: var(--accent-orange);
+  color: var(--color-rating-star);
+  fill: var(--color-rating-star);
 }
 
 .rating-text {
@@ -125,14 +128,16 @@
   text-decoration: line-through;
 }
 
+/* Current price - BLUE for trust (not orange) */
 .current-price {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--primary-blue);
+  color: var(--color-primary-600);
 }
 
+/* Discount badge - BLUE (not red) */
 .discount-badge {
-  background: var(--highlight-red);
+  background: var(--color-primary-700);
   color: white;
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
@@ -155,8 +160,9 @@
   font-weight: 600;
 }
 
+/* Out of stock - Neutral gray (not red) */
 .out-of-stock {
-  color: var(--highlight-red);
+  color: var(--color-neutral-600);
   font-weight: 600;
 }
 
@@ -192,8 +198,9 @@
   color: var(--text-dark);
 }
 
+/* Quantity controls - Blue hover for consistency */
 .quantity-controls button:hover {
-  background: var(--accent-orange);
+  background: var(--color-primary-600);
   color: white;
 }
 
@@ -261,6 +268,7 @@
   color: var(--primary-blue);
 }
 
+/* Tab headers - Blue active state */
 .tab-headers button.active::after {
   content: '';
   position: absolute;
@@ -268,7 +276,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: var(--accent-orange);
+  background: var(--color-primary-600);
 }
 
 .description-tab p {
@@ -335,14 +343,15 @@
   font-weight: 500;
 }
 
+/* Color selector - Keep orange for interactive selection */
 .color-option:hover {
-  border-color: var(--accent-orange);
+  border-color: var(--color-secondary-600);
   background: rgba(251, 140, 0, 0.05);
 }
 
 .color-option.active {
-  border-color: var(--accent-orange);
-  background: var(--accent-orange);
+  border-color: var(--color-secondary-600);
+  background: var(--color-secondary-600);
   color: white;
 }
 
@@ -384,10 +393,11 @@
   text-align: center;
 }
 
+/* Seller stats - Blue (not orange) */
 .seller-stats .stat strong {
   display: block;
   font-size: 1.8rem;
-  color: var(--accent-orange);
+  color: var(--color-primary-600);
   margin-bottom: 0.25rem;
 }
 
@@ -415,10 +425,11 @@
   transition: all 0.2s ease;
 }
 
+/* Review stars input - GOLD (not orange) */
 .stars-input svg:hover,
 .stars-input svg.filled {
-  color: var(--accent-orange);
-  fill: var(--accent-orange);
+  color: var(--color-rating-star);
+  fill: var(--color-rating-star);
 }
 
 .reviews-list {

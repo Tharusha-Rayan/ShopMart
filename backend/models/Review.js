@@ -48,6 +48,22 @@ const reviewSchema = new mongoose.Schema({
   isApproved: {
     type: Boolean,
     default: true
+  },
+  sentimentLabel: {
+    type: String,
+    enum: ['positive', 'neutral', 'negative'],
+    default: 'neutral',
+    index: true
+  },
+  sentimentScore: {
+    type: Number,
+    default: 0,
+    min: -1,
+    max: 1
+  },
+  sentimentUpdatedAt: {
+    type: Date,
+    default: null
   }
 }, {
   timestamps: true

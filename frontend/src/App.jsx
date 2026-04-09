@@ -6,6 +6,7 @@ import { WishlistProvider } from './context/WishlistContext';
 import { NotificationProvider } from './context/NotificationContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import AiChatWidget from './components/common/AiChatWidget';
 import { ToastContainer } from 'react-toastify';
 import { Loader2 } from 'lucide-react';
 import 'react-toastify/dist/ReactToastify.css';
@@ -95,6 +96,7 @@ function App() {
                     </Routes>
                   </Suspense>
                 </main>
+                <AiChatWidget />
                 <Footer />
               </div>
             </NotificationProvider>

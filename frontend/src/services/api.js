@@ -16,6 +16,18 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
+const getAiSessionId = () => {
+  const storageKey = 'ai_session_id';
+  const existing = localStorage.getItem(storageKey);
+  if (existing) {
+    return existing;
+  }
+
+  const generated = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+  localStorage.setItem(storageKey, generated);
+  return generated;
+};
+
 // Auth API
 export const authAPI = {
   register: (data) => API.post('/api/auth/register', data),
@@ -128,6 +140,22 @@ export const sellerAPI = {
   getProducts: () => API.get('/api/seller/products'),
   getOrders: () => API.get('/api/seller/orders'),
   updateOrderStatus: (orderId, status) => API.put(`/api/orders/${orderId}/status`, { status })
+};
+
+export const aiAPI = {
+  logEvent: (event) => API.post('/api/ai/events', {
+    ...event,
+    sessionId: event?.sessionId || getAiSessionId(),
+    source: event?.source || 'web'
+  }),
+  getRecommendations: (params) => API.get('/api/ai/recommendations', { params }),
+  recomputeSentiment: (data) => API.post('/api/ai/sentiment/recompute', data),
+  getSentimentSummary: (params) => API.get('/api/ai/sentiment/summary', { params }),
+  semanticSearch: (params) => API.get('/api/ai/search/semantic', { params }),
+  chat: (data) => API.post('/api/ai/chat', {
+    ...data,
+    sessionId: data?.sessionId || getAiSessionId()
+  })
 };
 
 export default API;

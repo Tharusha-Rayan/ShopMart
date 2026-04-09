@@ -1,36 +1,66 @@
 /**
- * Global CSS Variables
- * Generated from design system theme
+ * Global CSS Variables - SmartShop E-Commerce Design System
+ * 
+ * COLOR HIERARCHY:
+ * - Blue (Primary) = Brand identity, trust, navigation, links, prices, main actions
+ * - Orange (Secondary) = CTAs only ("Add to Cart", "Shop Now")
+ * - Green (Success) = Positive states (in-stock, success messages, verified)
+ * - Gold = Rating stars only
+ * - Neutrals = Text, backgrounds, borders, remove/delete actions
  */
 
 :root {
-  /* Primary Colors */
-  --color-primary-50: #EFF6FF;
-  --color-primary-100: #DBEAFE;
-  --color-primary-200: #BFDBFE;
-  --color-primary-300: #93C5FD;
-  --color-primary-400: #60A5FA;
-  --color-primary-500: #3B82F6;
-  --color-primary-600: #2563EB;
-  --color-primary-700: #1D4ED8;
-  --color-primary-800: #1E40AF;
-  --color-primary-900: #1E3A8A;
+  /* ========================================
+     PRIMARY COLORS - BLUE (Brand Identity)
+     Use: Navigation, headers, links, prices, sale badges, buy-now buttons
+     ======================================== */
+  --color-primary-50: #E3F2FD;
+  --color-primary-100: #BBDEFB;
+  --color-primary-200: #90CAF9;
+  --color-primary-300: #64B5F6;
+  --color-primary-400: #42A5F5;
+  --color-primary-500: #2196F3;
+  --color-primary-600: #1E88E5;
+  --color-primary-700: #1976D2;
+  --color-primary-800: #1565C0;
+  --color-primary-900: #0D47A1;
   --color-primary: var(--color-primary-600);
   
-  /* Secondary Colors */
-  --color-secondary-50: #FFF7ED;
-  --color-secondary-100: #FFEDD5;
-  --color-secondary-200: #FED7AA;
-  --color-secondary-300: #FDBA74;
-  --color-secondary-400: #FB923C;
-  --color-secondary-500: #F97316;
-  --color-secondary-600: #EA580C;
-  --color-secondary-700: #C2410C;
-  --color-secondary-800: #9A3412;
-  --color-secondary-900: #7C2D12;
-  --color-secondary: var(--color-secondary-500);
+  /* ========================================
+     SECONDARY COLORS - ORANGE (CTA Only)
+     STRICT USE: Only for "Add to Cart", "Shop Now", primary action buttons
+     NOT for: prices, sale badges, hover borders, hot badges, ratings
+     ======================================== */
+  --color-secondary-50: #FFF3E0;
+  --color-secondary-100: #FFE0B2;
+  --color-secondary-200: #FFCC80;
+  --color-secondary-300: #FFB74D;
+  --color-secondary-400: #FFA726;
+  --color-secondary-500: #FF9800;
+  --color-secondary-600: #FB8C00;
+  --color-secondary-700: #F57C00;
+  --color-secondary-800: #EF6C00;
+  --color-secondary-900: #E65100;
+  --color-secondary: var(--color-secondary-600);
   
-  /* Success Colors */
+  /* ========================================
+     GOLD - RATING STARS ONLY
+     Use: Star ratings display (standard e-commerce gold)
+     ======================================== */
+  --color-gold-50: #FFFBEB;
+  --color-gold-100: #FEF3C7;
+  --color-gold-200: #FDE68A;
+  --color-gold-300: #FCD34D;
+  --color-gold-400: #FBBF24;
+  --color-gold-500: #F59E0B;
+  --color-gold-600: #D97706;
+  --color-gold: var(--color-gold-400);
+  
+  /* ========================================
+     SUCCESS COLORS - GREEN
+     Use: In-stock indicators, success messages, verified badges, new arrival badges
+     NOT for: CTAs or prices
+     ======================================== */
   --color-success-50: #F0FDF4;
   --color-success-100: #DCFCE7;
   --color-success-200: #BBF7D0;
@@ -43,43 +73,50 @@
   --color-success-900: #14532D;
   --color-success: var(--color-success-600);
   
-  /* Danger Colors */
-  --color-danger-50: #FEF2F2;
-  --color-danger-100: #FEE2E2;
-  --color-danger-200: #FECACA;
-  --color-danger-300: #FCA5A5;
-  --color-danger-400: #F87171;
-  --color-danger-500: #EF4444;
-  --color-danger-600: #DC2626;
-  --color-danger-700: #B91C1C;
-  --color-danger-800: #991B1B;
-  --color-danger-900: #7F1D1D;
-  --color-danger: var(--color-danger-500);
+  /* ========================================
+     DANGER/DESTRUCTIVE - DARK NEUTRAL
+     Use: Remove, delete, destructive actions (NO urgent CTAs - use blue instead)
+     Strategy: Use dark gray to indicate destructive actions without aggressive red
+     ======================================== */
+  --color-danger-50: #F5F5F5;
+  --color-danger-100: #EEEEEE;
+  --color-danger-200: #E0E0E0;
+  --color-danger-300: #BDBDBD;
+  --color-danger-400: #9E9E9E;
+  --color-danger-500: #757575;
+  --color-danger-600: #616161;
+  --color-danger-700: #424242;
+  --color-danger-800: #212121;
+  --color-danger-900: #000000;
+  --color-danger: var(--color-danger-700);
   
-  /* Warning Colors */
-  --color-warning-50: #FFFBEB;
-  --color-warning-100: #FEF3C7;
-  --color-warning-200: #FDE68A;
-  --color-warning-300: #FCD34D;
-  --color-warning-400: #FBBF24;
-  --color-warning-500: #F59E0B;
-  --color-warning-600: #D97706;
-  --color-warning-700: #B45309;
-  --color-warning-800: #92400E;
-  --color-warning-900: #78350F;
-  --color-warning: var(--color-warning-500);
+  /* ========================================
+     WARNING COLORS - DESATURATED ORANGE
+     Use: Low stock warnings, caution states (use sparingly)
+     ======================================== */
+  --color-warning-50: #FFF8E1;
+  --color-warning-100: #FFECB3;
+  --color-warning-200: #FFE082;
+  --color-warning-300: #FFD54F;
+  --color-warning-400: #FFCA28;
+  --color-warning-500: #FFC107;
+  --color-warning-600: #FFB300;
+  --color-warning-700: #FFA000;
+  --color-warning-800: #FF8F00;
+  --color-warning-900: #FF6F00;
+  --color-warning: var(--color-warning-600);
   
-  /* Neutral Colors */
-  --color-neutral-50: #F8FAFC;
-  --color-neutral-100: #F1F5F9;
-  --color-neutral-200: #E2E8F0;
-  --color-neutral-300: #CBD5E1;
-  --color-neutral-400: #94A3B8;
-  --color-neutral-500: #64748B;
-  --color-neutral-600: #475569;
-  --color-neutral-700: #334155;
-  --color-neutral-800: #1E293B;
-  --color-neutral-900: #0F172A;
+  /* Neutral Colors - Clean grays for backgrounds and text */
+  --color-neutral-50: #FAFAFA;
+  --color-neutral-100: #F5F5F5;
+  --color-neutral-200: #EEEEEE;
+  --color-neutral-300: #E0E0E0;
+  --color-neutral-400: #BDBDBD;
+  --color-neutral-500: #9E9E9E;
+  --color-neutral-600: #757575;
+  --color-neutral-700: #616161;
+  --color-neutral-800: #424242;
+  --color-neutral-900: #212121;
   --color-neutral: var(--color-neutral-500);
   
   /* Utility Colors */

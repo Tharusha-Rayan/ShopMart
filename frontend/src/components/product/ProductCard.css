@@ -1,3 +1,12 @@
+/* ==========================================
+   PRODUCT CARD - PROFESSIONAL E-COMMERCE
+   Color Strategy:
+   - Blue = Prices, hover borders, wishlist
+   - Orange = Add to Cart CTA only
+   - Blue = Sale badges (not red)
+   - Gold = Rating stars
+   ========================================== */
+
 .product-card {
   background: var(--bg-white);
   border-radius: 12px;
@@ -21,7 +30,7 @@
 .product-card:hover {
   transform: translateY(-8px);
   box-shadow: var(--shadow-lg);
-  border-top: 3px solid var(--accent-orange);
+  border-top: 3px solid var(--color-primary-600); /* Blue border for consistency */
 }
 
 .product-badge {
@@ -35,18 +44,20 @@
   z-index: 10;
 }
 
+/* Sale badge - BLUE instead of red for consistency */
 .discount-badge {
-  background: var(--highlight-red);
+  background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary-800));
   color: white;
   animation: pulse-discount 2s ease infinite;
+  font-weight: 700;
 }
 
 @keyframes pulse-discount {
   0%, 100% {
-    box-shadow: 0 0 10px rgba(229, 57, 53, 0.5);
+    box-shadow: 0 0 10px rgba(30, 136, 229, 0.5);
   }
   50% {
-    box-shadow: 0 0 20px rgba(229, 57, 53, 0.8);
+    box-shadow: 0 0 20px rgba(30, 136, 229, 0.8);
   }
 }
 
@@ -70,14 +81,15 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* Wishlist - Blue theme (not red) */
 .wishlist-btn:hover {
   transform: scale(1.1);
-  color: var(--accent-orange);
+  color: var(--color-primary-600);
 }
 
 .wishlist-btn.active {
-  color: var(--accent-orange);
-  background: var(--bg-light-orange);
+  color: var(--color-primary-600);
+  background: var(--color-primary-50);
 }
 
 .product-image-wrapper {
@@ -150,8 +162,9 @@
   margin-top: 0.5rem;
 }
 
+/* Rating stars - GOLD instead of orange */
 .stars {
-  color: #fb8c00;
+  color: var(--color-rating-star);
   font-size: 0.875rem;
 }
 
@@ -167,10 +180,11 @@
   margin-bottom: 1rem;
 }
 
+/* Current price - BLUE for trust and consistency (not red) */
 .product-price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #10b981;
+  color: var(--color-primary-600);
 }
 
 .product-original-price {
@@ -182,7 +196,7 @@
 .add-to-cart-btn {
   width: 100%;
   padding: 12px;
-  background: #fb8c00;
+  background: linear-gradient(180deg, var(--color-secondary-600), var(--color-secondary-700));
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -194,13 +208,13 @@
   justify-content: center;
   gap: 8px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(251, 140, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(251, 140, 0, 0.25);
 }
 
 .add-to-cart-btn:hover {
-  background: #F57C00;
+  background: linear-gradient(180deg, var(--color-secondary-700), var(--color-secondary-800));
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(251, 140, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(251, 140, 0, 0.4);
 }
 
 @media (max-width: 768px) {

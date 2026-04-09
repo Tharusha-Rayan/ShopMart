@@ -1,0 +1,306 @@
+/**
+ * E-Commerce Utility Classes - SmartShop Professional
+ * 
+ * COLOR RULES:
+ * - Blue = Prices, sale badges, urgent actions
+ * - Orange = CTAs only (Add to Cart)
+ * - Gold = Rating stars
+ * - Green = Success/new items
+ * - Neutrals = Out of stock, destructive
+ */
+
+/* ==========================================
+   PRICE STYLING
+   Current price = BLUE (not red)
+   ========================================== */
+.price-primary {
+  color: var(--color-primary-600);
+  font-weight: 700;
+}
+
+.price-original {
+  color: var(--color-neutral-500);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.price-large {
+  font-size: 2rem;
+}
+
+.price-medium {
+  font-size: 1.5rem;
+}
+
+.price-small {
+  font-size: 1rem;
+}
+
+/* ==========================================
+   SALE & DISCOUNT BADGES
+   BLUE badges (not red) for consistency
+   ========================================== */
+.badge-sale {
+  background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary-800));
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+.badge-new {
+  background: var(--color-success-600);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+.badge-hot {
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-700));
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  display: inline-block;
+  animation: pulse-hot 2s ease infinite;
+}
+
+@keyframes pulse-hot {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(30, 136, 229, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(30, 136, 229, 0.7);
+  }
+}
+
+.badge-out-of-stock {
+  background: var(--color-neutral-500);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+/* ==========================================
+   CALL-TO-ACTION BUTTONS
+   Orange CTA, Blue Buy-Now
+   ========================================== */
+.btn-cta {
+  background: linear-gradient(180deg, var(--color-secondary-600), var(--color-secondary-700));
+  color: white;
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(251, 140, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-cta:hover {
+  background: linear-gradient(180deg, var(--color-secondary-700), var(--color-secondary-800));
+  transform: scale(1.02) translateY(-1px);
+  box-shadow: 0 4px 12px rgba(251, 140, 0, 0.35);
+}
+
+.btn-cta:active {
+  transform: scale(0.98);
+}
+
+.btn-buy-now {
+  background: linear-gradient(180deg, var(--color-primary-600), var(--color-primary-700));
+  color: white;
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(30, 136, 229, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-buy-now:hover {
+  background: linear-gradient(180deg, var(--color-primary-700), var(--color-primary-800));
+  transform: scale(1.02) translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 136, 229, 0.35);
+}
+
+.btn-buy-now:active {
+  transform: scale(0.98);
+}
+
+/* Stock Status */
+.stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.stock-badge.in-stock {
+  background: var(--color-success-50);
+  color: var(--color-success-700);
+}
+
+.stock-badge.low-stock {
+  background: var(--color-warning-50);
+  color: var(--color-warning-700);
+}
+
+.stock-badge.out-of-stock {
+  background: var(--color-neutral-200);
+  color: var(--color-neutral-700);
+}
+
+/* ==========================================
+   RATING STARS - GOLD (not orange)
+   ========================================== */
+.rating-stars {
+  color: var(--color-rating-star);
+  display: inline-flex;
+  gap: 0.125rem;
+}
+
+.rating-stars.large {
+  font-size: 1.5rem;
+}
+
+.rating-stars.medium {
+  font-size: 1rem;
+}
+
+.rating-stars.small {
+  font-size: 0.875rem;
+}
+
+/* Free Shipping Badge */
+.badge-free-shipping {
+  background: var(--color-primary-50);
+  color: var(--color-primary-700);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* E-commerce Card Hover Effect */
+.ecommerce-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ecommerce-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Promotional Banner - Blue gradient (not red) */
+.promo-banner {
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-700));
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+/* Flash Sale Timer - Blue (not red) */
+.flash-sale-timer {
+  background: var(--color-primary-600);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  animation: pulse-timer 1s ease infinite;
+}
+
+@keyframes pulse-timer {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Savings Label - Blue (not red) */
+.savings-label {
+  color: var(--color-primary-600);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Product Highlight Border - Blue (not orange) */
+.highlight-border {
+  border: 2px solid var(--color-primary-600);
+  box-shadow: 0 0 12px rgba(30, 136, 229, 0.2);
+}
+
+/* Featured Tag */
+.featured-tag {
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-700));
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Best Seller Badge */
+.bestseller-badge {
+  background: var(--color-warning-500);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Verified Seller Badge */
+.verified-badge {
+  background: var(--color-success-50);
+  color: var(--color-success-700);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}

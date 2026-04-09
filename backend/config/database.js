@@ -10,10 +10,24 @@ const connectDB = async () => {
     });
 
     logger.info(`MongoDB Connected: ${conn.connection.host}`);
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    console.log(` MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    logger.error(`MongoDB Connection Error: ${error.message}`);
-    console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    const isDnsIssue =
+      error &&
+      (error.code === 'ENOTFOUND' ||
+        (typeof error.message === 'string' && error.message.includes('querySrv ENOTFOUND')));
+
+    if (isDnsIssue) {
+      const hint =
+        'MongoDB DNS lookup failed. Check MONGODB_URI host in backend/.env and verify Atlas cluster hostname exists.';
+      logger.error(`MongoDB Connection Error: ${error.message}. ${hint}`);
+      console.error(`MongoDB Connection Error: ${error.message}`);
+      console.error(hint);
+    } else {
+      logger.error(`MongoDB Connection Error: ${error.message}`);
+      console.error(`MongoDB Connection Error: ${error.message}`);
+    }
+
     process.exit(1);
   }
 };

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "returns-policy",
+    "title": "Return and Refund Policy",
+    "content": "Customers can request a return from the order details page by selecting a reason and uploading proof if required. Sellers review return requests and approved returns are processed after item receipt."
+  },
+  {
+    "id": "shipping-info",
+    "title": "Shipping and Delivery",
+    "content": "Order statuses move through pending, processing, shipped, and delivered. Delivery time depends on seller location and courier availability. Customers can track updates from the Orders page."
+  },
+  {
+    "id": "order-tracking",
+    "title": "Order Tracking",
+    "content": "Customers can view order status and tracking updates in their order history. If tracking data is missing, they can contact support or message the seller."
+  },
+  {
+    "id": "payments",
+    "title": "Payments",
+    "content": "Supported payment methods include credit card, debit card, paypal, and cash on delivery based on checkout options."
+  },
+  {
+    "id": "account-help",
+    "title": "Account and Security",
+    "content": "Users should keep credentials secure and use password reset if access is lost. Unauthorized access issues should be reported to support immediately."
+  }
+]

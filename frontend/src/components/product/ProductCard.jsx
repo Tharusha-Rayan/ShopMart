@@ -6,7 +6,7 @@ import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import './ProductCard.css';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onProductClick }) => {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
     ?.trim() || product.name;
 
   return (
-    <Link to={`/product/${product._id}`} className="product-card">
+    <Link to={`/product/${product._id}`} className="product-card" onClick={() => onProductClick?.(product)}>
       {discount > 0 && (
         <div className="product-badge discount-badge">-{discount}%</div>
       )}

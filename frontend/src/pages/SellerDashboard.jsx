@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sellerAPI, productAPI } from '../services/api';
+import { sellerAPI, productAPI, aiAPI } from '../services/api';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
 import Input from '../components/common/Input';
 import { toast } from 'react-toastify';
-import { DollarSign, Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, Eye, MessageSquare, RefreshCw, BarChart3, Settings, CheckCircle, Truck, X } from 'lucide-react';
+import { DollarSign, Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, Eye, MessageSquare, RefreshCw, BarChart3, Settings, CheckCircle, Truck, X, XCircle } from 'lucide-react';
 import './SellerDashboard.css';
 
 const SellerDashboard = () => {
@@ -18,6 +18,7 @@ const SellerDashboard = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('overview');
+  const [sentimentSummary, setSentimentSummary] = useState(null);
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -49,6 +50,9 @@ const SellerDashboard = () => {
       setProducts(productsRes.data.data || []);
       setOrders(ordersRes.data.data || []);
       setCategories(categoriesRes.data.data || []);
+
+      const sentimentRes = await aiAPI.getSentimentSummary().catch(() => ({ data: { data: null } }));
+      setSentimentSummary(sentimentRes?.data?.data || null);
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
     } finally {
@@ -263,6 +267,44 @@ const SellerDashboard = () => {
                 <p className="no-data">No orders yet</p>
               )}
             </Card>
+
+            {sentimentSummary && (
+              <Card className="recent-activity">
+                <h2><BarChart3 /> Review Sentiment</h2>
+                <div className="table-responsive">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>Sentiment</th>
+                        <th>Count</th>
+                        <th>Avg Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Positive</td>
+                        <td>{sentimentSummary.positive?.count || 0}</td>
+                        <td>{sentimentSummary.positive?.avgScore || 0}</td>
+                      </tr>
+                      <tr>
+                        <td>Neutral</td>
+                        <td>{sentimentSummary.neutral?.count || 0}</td>
+                        <td>{sentimentSummary.neutral?.avgScore || 0}</td>
+                      </tr>
+                      <tr>
+                        <td>Negative</td>
+                        <td>{sentimentSummary.negative?.count || 0}</td>
+                        <td>{sentimentSummary.negative?.avgScore || 0}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Overall Avg Rating</strong></td>
+                        <td colSpan="2"><strong>{sentimentSummary.overallAvgRating || 0}</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            )}
           </div>
         )}
 
@@ -751,10 +793,14 @@ const SellerDashboard = () => {
                   </Button>
                 )}
                 {selectedOrder.status === 'delivered' && (
-                  <div className="status-message">✅ Order has been delivered successfully!</div>
+                  <div className="status-message" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle size={18} color="#10b981" /> Order has been delivered successfully!
+                  </div>
                 )}
                 {selectedOrder.status === 'cancelled' && (
-                  <div className="status-message cancelled">❌ This order has been cancelled</div>
+                  <div className="status-message cancelled" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <XCircle size={18} color="#ef4444" /> This order has been cancelled
+                  </div>
                 )}
               </div>
             </div>

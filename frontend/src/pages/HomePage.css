@@ -154,8 +154,39 @@
   gap: var(--spacing-2xl);
 }
 
-/* Promotional Banners */
+
+
+/* ================= PROMO SECTION ================= */
 .promo-banners {
+  padding: 4rem 0;
+  background: var(--bg-light);
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 👈 4 in one row */
+  gap: var(--spacing-2xl);
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .promo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .promo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+/* Promotional Banners */
+/* .promo-banners {
   padding: 4rem 0;
   background: var(--bg-light);
 }
@@ -164,8 +195,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-2xl);
-}
-
+} */
+/* 
 .promo-card {
   background: white;
   padding: 2.5rem;
@@ -232,7 +263,89 @@
   font-size: var(--spacing-md);
   color: var(--text-gray);
   margin: 0;
+} */
+
+
+/* ================= PROMO CARD ================= */
+.promo-card {
+  position: relative;
+  background: #ffffff;
+  padding: 2.25rem 2rem;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
 }
+
+/* Top accent line */
+.promo-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-primary-700)
+  );
+}
+
+/* Hover effect (clean & calm) */
+.promo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+}
+
+/* ================= ICON ================= */
+.promo-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--spacing-md);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-50),
+    var(--color-primary-100)
+  );
+  color: var(--color-primary);
+}
+
+.promo-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* ================= TEXT ================= */
+.promo-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  margin-bottom: 0.4rem;
+}
+
+.promo-card p {
+  font-size: 0.95rem;
+  color: var(--color-neutral-600);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .promo-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+
+
 
 /* Responsive */
 @media (max-width: 968px) {
@@ -281,10 +394,6 @@
 
   .products-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .promo-grid {
-    grid-template-columns: 1fr;
   }
 }
 

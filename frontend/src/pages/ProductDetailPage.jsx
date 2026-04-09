@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { productAPI, reviewAPI, messageAPI } from '../services/api';
+import { productAPI, reviewAPI, messageAPI, aiAPI } from '../services/api';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import ProductCard from '../components/product/ProductCard';
-import { Heart, Star, ShoppingCart, Truck, Shield, MessageSquare } from 'lucide-react';
+import { Heart, Star, ShoppingCart, Truck, Shield, MessageSquare, FileText } from 'lucide-react';
 import { toast } from 'react-toastify';
 import './ProductDetailPage.css';
 
@@ -27,7 +27,6 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState('');
   const [activeTab, setActiveTab] = useState('description');
-  const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
 
   useEffect(() => {
     fetchProduct();
@@ -38,9 +37,19 @@ const ProductDetailPage = () => {
     try {
       const { data } = await productAPI.getOne(id);
       setProduct(data.data);
-      if (data.data.category) {
-        fetchSimilarProducts(data.data.category._id || data.data.category);
-      }
+
+      await aiAPI.logEvent({
+        eventType: 'product_view',
+        payload: {
+          productId: data.data._id,
+          price: data.data.price
+        },
+        metadata: {
+          page: `/product/${id}`
+        }
+      }).catch(() => null);
+
+      fetchRecommendedProducts(data.data._id);
     } catch (error) {
       console.error('Failed to fetch product:', error);
     } finally {
@@ -57,17 +66,35 @@ const ProductDetailPage = () => {
     }
   };
 
-  const fetchSimilarProducts = async (categoryId) => {
+  const fetchRecommendedProducts = async (productId) => {
     try {
-      const { data } = await productAPI.getAll({ category: categoryId, limit: 4 });
-      const filtered = data.data.filter(p => p._id !== id);
-      setSimilarProducts(filtered.slice(0, 4));
+      const { data } = await aiAPI.getRecommendations({ productId, limit: 4 });
+      setSimilarProducts(data.data || []);
     } catch (error) {
       console.error('Failed to fetch similar products:', error);
+      try {
+        const fallback = await productAPI.getAll({ limit: 4 });
+        const filtered = (fallback.data.data || []).filter(p => p._id !== id);
+        setSimilarProducts(filtered.slice(0, 4));
+      } catch {
+        setSimilarProducts([]);
+      }
     }
   };
 
   const handleAddToCart = () => {
+    aiAPI.logEvent({
+      eventType: 'add_to_cart',
+      payload: {
+        productId: product._id,
+        quantity,
+        price: product.price
+      },
+      metadata: {
+        page: `/product/${id}`
+      }
+    }).catch(() => null);
+
     addToCart(product, quantity);
   };
 
@@ -81,24 +108,6 @@ const ProductDetailPage = () => {
       removeFromWishlist(product._id);
     } else {
       addToWishlist(product);
-    }
-  };
-
-  const handleReviewSubmit = async (e) => {
-    e.preventDefault();
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    try {
-      await reviewAPI.create({ ...reviewForm, product: id });
-      setReviewForm({ rating: 5, comment: '' });
-      toast.success('Review submitted successfully!');
-      fetchReviews();
-      fetchProduct();
-    } catch (error) {
-      console.error('Failed to submit review:', error);
-      toast.error(error.response?.data?.message || 'Failed to submit review');
     }
   };
 
@@ -311,7 +320,10 @@ const ProductDetailPage = () => {
                     <h3>Similar Products</h3>
                     <div className="similar-products-grid">
                       {similarProducts.map((similarProduct) => (
-                        <ProductCard key={similarProduct._id} product={similarProduct} />
+                        <ProductCard 
+                          key={similarProduct._id} 
+                          product={similarProduct}
+                        />
                       ))}
                     </div>
                   </div>
@@ -321,50 +333,37 @@ const ProductDetailPage = () => {
 
             {activeTab === 'reviews' && (
               <div className="reviews-tab">
-                {user && (
-                  <Card>
-                    <h3>Write a Review</h3>
-                    <form onSubmit={handleReviewSubmit}>
-                      <div className="rating-selector">
-                        <label>Your Rating:</label>
-                        <div className="stars-input">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star
-                              key={star}
-                              className={star <= reviewForm.rating ? 'filled' : ''}
-                              onClick={() => setReviewForm({ ...reviewForm, rating: star })}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                      <textarea
-                        placeholder="Share your experience..."
-                        value={reviewForm.comment}
-                        onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })}
-                        required
-                      />
-                      <Button type="submit" variant="primary">Submit Review</Button>
-                    </form>
-                  </Card>
-                )}
+                <Card className="review-notice">
+                  <p style={{ textAlign: 'center', padding: '20px', color: '#666', lineHeight: '1.6', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                    <FileText size={24} color="#666" />
+                    <strong>Only verified buyers can write reviews</strong><br/>
+                    <small>Purchase this product and wait for delivery to write your review on the Order Tracking page.</small>
+                  </p>
+                </Card>
 
                 <div className="reviews-list">
-                  {reviews.map((review) => (
-                    <Card key={review._id} className="review-card">
-                      <div className="review-header">
-                        <strong>{review.user?.name}</strong>
-                        <div className="stars">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={i < review.rating ? 'filled' : ''} />
-                          ))}
+                  {reviews.length > 0 ? (
+                    reviews.map((review) => (
+                      <Card key={review._id} className="review-card">
+                        <div className="review-header">
+                          <strong>{review.user?.name}</strong>
+                          <div className="stars">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className={i < review.rating ? 'filled' : ''} />
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                      <p>{review.comment}</p>
-                      <span className="review-date">
-                        {new Date(review.createdAt).toLocaleDateString()}
-                      </span>
-                    </Card>
-                  ))}
+                        <p>{review.comment}</p>
+                        <span className="review-date">
+                          {new Date(review.createdAt).toLocaleDateString()}
+                        </span>
+                      </Card>
+                    ))
+                  ) : (
+                    <p style={{ textAlign: 'center', color: '#999', padding: '20px' }}>
+                      No reviews yet. Be the first to review after purchasing!
+                    </p>
+                  )}
                 </div>
               </div>
             )}

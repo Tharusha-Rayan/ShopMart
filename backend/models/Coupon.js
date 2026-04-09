@@ -63,7 +63,6 @@ const couponSchema = new mongoose.Schema({
 });
 
 // Index for performance
-couponSchema.index({ code: 1 });
 couponSchema.index({ expiryDate: 1, isActive: 1 });
 
 module.exports = mongoose.model('Coupon', couponSchema);

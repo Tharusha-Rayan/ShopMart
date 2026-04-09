@@ -1,41 +1,57 @@
 /* Import global styles and design system */
 @import './styles/globals.css';
 @import './styles/pages-common.css';
+@import './styles/ecommerce-utilities.css';
 
 /* Legacy CSS Variables for backward compatibility */
 :root {
-  /* Map to new design system */
+  /* ==========================================
+     LEGACY MAPPINGS - UPDATED FOR NEW SYSTEM
+     Note: Red accent colors replaced with blue/neutral
+     ========================================== */
+  
+  /* Primary Blue - Brand Identity */
   --primary-blue: var(--color-primary-600);
   --primary-blue-dark: var(--color-primary-700);
   --primary-blue-light: var(--color-primary-400);
   
-  --accent-orange: var(--color-secondary-500);
-  --accent-orange-dark: var(--color-secondary-600);
-  --accent-orange-light: var(--color-secondary-300);
+  /* Accent Orange - CTA Only */
+  --accent-orange: var(--color-secondary-600);
+  --accent-orange-dark: var(--color-secondary-700);
+  --accent-orange-light: var(--color-secondary-400);
   
+  /* Success Green */
   --success-green: var(--color-success-600);
   --success-green-dark: var(--color-success-700);
-  --highlight-red: var(--color-danger-500);
-  --highlight-red-dark: var(--color-danger-600);
-  --warning-amber: var(--color-warning-400);
   
+  /* ⚠️ DEPRECATED: Red removed - now maps to dark neutral */
+  --highlight-red: var(--color-danger-700);        /* Was red, now dark gray */
+  --highlight-red-dark: var(--color-danger-800);   /* Was red, now darker gray */
+  
+  /* Warning Amber */
+  --warning-amber: var(--color-warning-600);
+  
+  /* Backgrounds */
   --bg-white: var(--color-white);
   --bg-gray: var(--color-neutral-100);
   --bg-light-blue: var(--color-primary-50);
   --bg-light-orange: var(--color-secondary-50);
   
+  /* Text Colors */
   --text-dark: var(--color-neutral-900);
   --text-gray: var(--color-neutral-600);
   --text-light: var(--color-neutral-400);
   
+  /* Borders */
   --border-gray: var(--color-neutral-300);
-  --border-light: var(--color-neutral-100);
+  --border-light: var(--color-neutral-200);
   
+  /* Shadows */
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
-  --shadow-orange: 0 4px 16px rgba(251, 140, 0, 0.3);
-  --shadow-blue: 0 4px 16px rgba(30, 136, 229, 0.3);
+  --shadow-orange: 0 4px 12px rgba(251, 140, 0, 0.25);
+  --shadow-blue: 0 4px 12px rgba(30, 136, 229, 0.2);
 }
 
 body {
@@ -105,6 +121,10 @@ main {
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-lg);
   font-weight: var(--font-weight-semibold);
+/* ========================================================
+   Global Button Theme Override (Solid Orange, No Gradient)
+   ======================================================== */
+
   font-size: var(--font-size-base);
   transition: all var(--transition-base);
   display: inline-flex;
@@ -118,7 +138,7 @@ main {
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  background: var(--accent-orange) !important;
   cursor: not-allowed;
 }
 
@@ -137,7 +157,7 @@ main {
 .btn-secondary {
   background: transparent;
   color: var(--color-primary);
-  border: 2px solid var(--color-primary);
+  background: var(--accent-orange-dark) !important;
 }
 
 .btn-secondary:hover:not(:disabled) {

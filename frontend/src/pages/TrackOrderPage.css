@@ -148,6 +148,7 @@
   padding: var(--spacing-md);
   border: 1px solid var(--border-gray);
   border-radius: 8px;
+  align-items: center;
 }
 
 .order-item img {
@@ -155,6 +156,10 @@
   height: 80px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.item-details {
+  flex: 1;
 }
 
 .item-details h4 {
@@ -173,6 +178,13 @@
   color: var(--accent-orange);
   font-weight: 600;
   font-size: var(--spacing-md) !important;
+}
+
+.order-item .review-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* Sidebar */
@@ -274,3 +286,177 @@
   }
 }
 
+/* Review Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-gray);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--bg-gray);
+  color: var(--text-dark);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.review-product-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: var(--spacing-md);
+  background: var(--bg-gray);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.review-product-info img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.review-product-info h4 {
+  font-size: var(--spacing-md);
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.stars-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.stars-input svg {
+  color: var(--border-gray);
+  transition: all 0.2s ease;
+}
+
+.stars-input svg.filled {
+  color: var(--accent-orange);
+  fill: var(--accent-orange);
+}
+
+.stars-input svg:hover {
+  transform: scale(1.1);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-gray);
+  border-radius: 8px;
+  font-size: var(--spacing-md);
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px rgba(251, 140, 0, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-gray);
+}
+
+.modal-actions button {
+  min-width: 120px;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 100%;
+    margin: var(--spacing-md);
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+
+  .order-item {
+    flex-wrap: wrap;
+  }
+
+  .order-item .review-btn {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+  }
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "query": "wireless earbuds",
+    "relevantProductIds": ["PUT_PRODUCT_ID_1", "PUT_PRODUCT_ID_2"]
+  },
+  {
+    "query": "office chair",
+    "relevantProductIds": ["PUT_PRODUCT_ID_3"]
+  }
+]
