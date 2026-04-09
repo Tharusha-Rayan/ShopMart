@@ -1,10 +1,10 @@
-﻿
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
-import { UserIcon, MailIcon, LockIcon, ShoppingBagIcon } from '../components/icons';
+import { User, Mail, Lock, ShoppingBag } from 'lucide-react';
 import './RegisterPage.css';
 
 const RegisterPage = () => {
@@ -57,15 +57,15 @@ const RegisterPage = () => {
           <p>Create your account and start shopping smart</p>
           <div className="auth-features">
             <div className="auth-feature">
-              <ShoppingBagIcon className="feature-icon" />
+              <ShoppingBag className="feature-icon" />
               <span>Shop thousands of products</span>
             </div>
             <div className="auth-feature">
-              <UserIcon className="feature-icon" />
+              <User className="feature-icon" />
               <span>Track your orders</span>
             </div>
             <div className="auth-feature">
-              <MailIcon className="feature-icon" />
+              <Mail className="feature-icon" />
               <span>Get exclusive deals</span>
             </div>
           </div>
@@ -85,7 +85,7 @@ const RegisterPage = () => {
               onChange={handleChange}
               placeholder="Enter your full name"
               required
-              icon={UserIcon}
+              icon={User}
             />
 
             <Input
@@ -96,7 +96,7 @@ const RegisterPage = () => {
               onChange={handleChange}
               placeholder="Enter your email"
               required
-              icon={MailIcon}
+              icon={Mail}
             />
 
             <Input
@@ -107,7 +107,7 @@ const RegisterPage = () => {
               onChange={handleChange}
               placeholder="Create a password"
               required
-              icon={LockIcon}
+              icon={Lock}
             />
 
             <Input
@@ -118,7 +118,7 @@ const RegisterPage = () => {
               onChange={handleChange}
               placeholder="Confirm your password"
               required
-              icon={LockIcon}
+              icon={Lock}
             />
 
             <div className="input-group">
@@ -168,4 +168,5 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
 

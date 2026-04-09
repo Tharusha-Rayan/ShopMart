@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiHeart, FiShoppingCart } from 'react-icons/fi';
+import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
@@ -53,7 +53,7 @@ const ProductCard = ({ product }) => {
         className={`wishlist-btn ${inWishlist ? 'active' : ''}`}
         onClick={handleWishlistToggle}
       >
-        <FiHeart />
+        <Heart />
       </button>
 
       <div className="product-image-wrapper">
@@ -86,7 +86,18 @@ const ProductCard = ({ product }) => {
         )}
         
         <div className="product-rating">
-          <span className="stars">{'⭐'.repeat(Math.round(product.rating || 0))}</span>
+          <div className="stars">
+            {[...Array(5)].map((_, i) => {
+              const rating = product.rating || 0;
+              const wholeStars = Math.round(rating);
+              
+              if (i < wholeStars) {
+                return <Star key={i} size={14} fill="#fbbf24" color="#fbbf24" />;
+              } else {
+                return <Star key={i} size={14} color="#d1d5db" />;
+              }
+            })}
+          </div>
           {product.numReviews > 0 && (
             <span className="rating-count">({product.numReviews})</span>
           )}
@@ -100,7 +111,7 @@ const ProductCard = ({ product }) => {
         </div>
 
         <button className="add-to-cart-btn" onClick={handleAddToCart}>
-          <FiShoppingCart />
+          <ShoppingCart />
           Add to Cart
         </button>
       </div>

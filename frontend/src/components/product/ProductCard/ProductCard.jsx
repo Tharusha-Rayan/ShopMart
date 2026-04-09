@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './ProductCard.css';
-import { HeartIcon, HeartFilledIcon, ShoppingCartIcon, StarIcon, StarFilledIcon } from '../../icons';
+import { Heart, ShoppingCart, Star } from 'lucide-react';
 import Button from '../../common/Button';
 
 /**
@@ -40,13 +40,13 @@ const ProductCard = ({
 
   const renderStars = (rating) => {
     const stars = [];
-    const fullStars = Math.floor(rating);
+    const wholeStars = Math.round(rating || 0);
     
     for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(<StarFilledIcon key={i} size={16} color="var(--color-warning)" />);
+      if (i < wholeStars) {
+        stars.push(<Star key={i} size={16} fill="var(--color-warning)" color="var(--color-warning)" />);
       } else {
-        stars.push(<StarIcon key={i} size={16} color="var(--color-neutral-300)" />);
+        stars.push(<Star key={i} size={16} color="var(--color-neutral-300)" />);
       }
     }
     return stars;
@@ -79,9 +79,9 @@ const ProductCard = ({
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
         >
           {isInWishlist ? (
-            <HeartFilledIcon size={20} color="var(--color-danger)" />
+            <Heart size={20} fill="var(--color-danger)" color="var(--color-danger)" />
           ) : (
-            <HeartIcon size={20} />
+            <Heart size={20} />
           )}
         </button>
       </div>
@@ -111,7 +111,7 @@ const ProductCard = ({
           variant="primary"
           size="sm"
           fullWidth
-          icon={<ShoppingCartIcon size={18} />}
+          icon={<ShoppingCart size={18} />}
           onClick={handleAddToCart}
           disabled={stock === 0}
         >

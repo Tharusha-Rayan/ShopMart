@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
-import { TrashIcon, ShoppingBagIcon, ArrowRightIcon } from '../components/icons';
+import { Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import './CartPage.css';
 
 const CartPage = () => {
@@ -57,7 +57,7 @@ const CartPage = () => {
     return (
       <div className="cart-empty">
         <div className="container">
-          <ShoppingBagIcon className="empty-icon" />
+          <ShoppingBag className="empty-icon" />
           <h2>Your cart is empty</h2>
           <p>Start adding products to your cart</p>
           <Link to="/products">
@@ -141,7 +141,7 @@ const CartPage = () => {
                   onClick={() => removeFromCart(itemId)}
                   aria-label="Remove item"
                 >
-                  <TrashIcon />
+                  <Trash2 />
                 </button>
               </Card>
             );
@@ -171,7 +171,7 @@ const CartPage = () => {
                 onClick={() => navigate('/checkout')}
                 disabled={selectedItems.length === 0}
               >
-                Proceed to Checkout <ArrowRightIcon />
+                Proceed to Checkout <ArrowRight />
               </Button>
               <Link to="/products">
                 <Button variant="secondary" size="large" fullWidth>
@@ -187,4 +187,5 @@ const CartPage = () => {
 };
 
 export default CartPage;
+
 

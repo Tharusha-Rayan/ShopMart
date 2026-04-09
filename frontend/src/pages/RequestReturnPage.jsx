@@ -6,7 +6,7 @@ import Card from '../components/common/Card';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
-import { PackageIcon, AlertCircleIcon } from '../components/icons';
+import { Package, AlertCircle } from 'lucide-react';
 import './RequestReturnPage.css';
 
 const RequestReturnPage = () => {

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Card from '../components/common/Card';
-import { TruckIcon, PackageIcon, ClockIcon, MapPinIcon, CheckIcon } from '../components/icons';
+import { Truck, Package, Clock, MapPin, Check } from 'lucide-react';
 import './ShippingInfoPage.css';
 
 const ShippingInfoPage = () => {
@@ -9,7 +9,7 @@ const ShippingInfoPage = () => {
     <div className="shipping-info-page">
       <div className="container">
         <div className="shipping-header">
-          <TruckIcon className="shipping-icon" />
+          <Truck className="shipping-icon" />
           <h1>Shipping Information</h1>
           <p>Everything you need to know about our shipping services</p>
         </div>
@@ -17,40 +17,40 @@ const ShippingInfoPage = () => {
         <div className="shipping-content">
           <Card className="shipping-section">
             <div className="section-icon">
-              <PackageIcon />
+              <Package />
             </div>
             <h2>Shipping Methods</h2>
             <div className="shipping-methods">
               <div className="method">
                 <h3>Standard Shipping</h3>
-                <p className="method-time"><ClockIcon /> 3-7 business days</p>
+                <p className="method-time"><Clock /> 3-7 business days</p>
                 <p className="method-price">$5.00</p>
                 <ul className="method-features">
-                  <li><CheckIcon /> Tracking included</li>
-                  <li><CheckIcon /> Signature not required</li>
+                  <li><Check /> Tracking included</li>
+                  <li><Check /> Signature not required</li>
                 </ul>
               </div>
 
               <div className="method featured">
                 <div className="featured-badge">Most Popular</div>
                 <h3>Express Shipping</h3>
-                <p className="method-time"><ClockIcon /> 1-2 business days</p>
+                <p className="method-time"><Clock /> 1-2 business days</p>
                 <p className="method-price">$15.00</p>
                 <ul className="method-features">
-                  <li><CheckIcon /> Priority handling</li>
-                  <li><CheckIcon /> Real-time tracking</li>
-                  <li><CheckIcon /> Signature required</li>
+                  <li><Check /> Priority handling</li>
+                  <li><Check /> Real-time tracking</li>
+                  <li><Check /> Signature required</li>
                 </ul>
               </div>
 
               <div className="method">
                 <h3>Same Day Delivery</h3>
-                <p className="method-time"><ClockIcon /> Within 24 hours</p>
+                <p className="method-time"><Clock /> Within 24 hours</p>
                 <p className="method-price">$25.00</p>
                 <ul className="method-features">
-                  <li><CheckIcon /> Available in select areas</li>
-                  <li><CheckIcon /> Real-time tracking</li>
-                  <li><CheckIcon /> Signature required</li>
+                  <li><Check /> Available in select areas</li>
+                  <li><Check /> Real-time tracking</li>
+                  <li><Check /> Signature required</li>
                 </ul>
               </div>
             </div>
@@ -58,7 +58,7 @@ const ShippingInfoPage = () => {
 
           <Card className="shipping-section">
             <div className="section-icon">
-              <MapPinIcon />
+              <MapPin />
             </div>
             <h2>Delivery Areas</h2>
             <p>We ship to all 50 states in the United States and select international locations.</p>
@@ -76,7 +76,7 @@ const ShippingInfoPage = () => {
 
           <Card className="shipping-section">
             <div className="section-icon">
-              <ClockIcon />
+              <Clock />
             </div>
             <h2>Processing Time</h2>
             <ul className="timeline">
@@ -140,4 +140,5 @@ const ShippingInfoPage = () => {
 };
 
 export default ShippingInfoPage;
+
 

@@ -1,9 +1,9 @@
-﻿
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
-import { ShoppingBagIcon } from '../components/icons';
+import { ShoppingBag } from 'lucide-react';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -37,7 +37,7 @@ const LoginPage = () => {
       <div className="auth-container">
         <div className="auth-left">
           <div className="auth-left-content">
-            <h1><ShoppingBagIcon /> ShopMart</h1>
+            <h1><ShoppingBag /> ShopMart</h1>
             <p>Shop Smart, Save Big</p>
           </div>
         </div>
@@ -107,3 +107,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

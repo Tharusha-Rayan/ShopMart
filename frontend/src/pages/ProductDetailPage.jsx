@@ -1,4 +1,4 @@
-﻿
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { productAPI, reviewAPI, messageAPI } from '../services/api';
@@ -8,7 +8,7 @@ import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import ProductCard from '../components/product/ProductCard';
-import { FiHeart, FiStar, FiShoppingCart, FiTruck, FiShield, FiMessageSquare } from 'react-icons/fi';
+import { Heart, Star, ShoppingCart, Truck, Shield, MessageSquare } from 'lucide-react';
 import { toast } from 'react-toastify';
 import './ProductDetailPage.css';
 
@@ -123,7 +123,7 @@ const ProductDetailPage = () => {
                 className={`wishlist-btn ${isInWishlist(product._id) ? 'active' : ''}`}
                 onClick={handleWishlistToggle}
               >
-                <FiHeart />
+                <Heart />
               </button>
             </div>
             <div className="image-thumbnails">
@@ -145,7 +145,7 @@ const ProductDetailPage = () => {
             <div className="product-rating">
               <div className="stars">
                 {[...Array(5)].map((_, i) => (
-                  <FiStar key={i} className={i < Math.floor(product.rating) ? 'filled' : ''} />
+                  <Star key={i} className={i < Math.floor(product.rating) ? 'filled' : ''} />
                 ))}
               </div>
               <span className="rating-text">
@@ -209,7 +209,7 @@ const ProductDetailPage = () => {
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
               >
-                <FiShoppingCart /> Add to Cart
+                <ShoppingCart /> Add to Cart
               </Button>
               <Button
                 variant="secondary"
@@ -239,18 +239,18 @@ const ProductDetailPage = () => {
                     }
                   }}
                 >
-                  <FiMessageSquare /> Contact Seller
+                  <MessageSquare /> Contact Seller
                 </Button>
               </div>
             )}
 
             <div className="product-features">
               <div className="feature">
-                <FiTruck />
+                <Truck />
                 <span>Fast shipping nationwide</span>
               </div>
               <div className="feature">
-                <FiShield />
+                <Shield />
                 <span>Secure payment</span>
               </div>
             </div>
@@ -329,7 +329,7 @@ const ProductDetailPage = () => {
                         <label>Your Rating:</label>
                         <div className="stars-input">
                           {[1, 2, 3, 4, 5].map((star) => (
-                            <FiStar
+                            <Star
                               key={star}
                               className={star <= reviewForm.rating ? 'filled' : ''}
                               onClick={() => setReviewForm({ ...reviewForm, rating: star })}
@@ -355,7 +355,7 @@ const ProductDetailPage = () => {
                         <strong>{review.user?.name}</strong>
                         <div className="stars">
                           {[...Array(5)].map((_, i) => (
-                            <FiStar key={i} className={i < review.rating ? 'filled' : ''} />
+                            <Star key={i} className={i < review.rating ? 'filled' : ''} />
                           ))}
                         </div>
                       </div>
@@ -376,3 +376,4 @@ const ProductDetailPage = () => {
 };
 
 export default ProductDetailPage;
+

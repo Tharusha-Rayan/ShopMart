@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
-import { EditIcon, TrashIcon, EyeIcon } from '../components/icons';
+import { Edit, Trash2, Eye } from 'lucide-react';
 import './ManageProductsPage.css';
 
 const ManageProductsPage = () => {
@@ -171,21 +171,21 @@ const ManageProductsPage = () => {
                           onClick={() => navigate(`/product/${product._id}`)}
                           title="View"
                         >
-                          <EyeIcon />
+                          <Eye />
                         </button>
                         <button 
                           className="icon-btn edit" 
                           onClick={() => navigate(`/product/${product._id}/edit`)}
                           title="Edit"
                         >
-                          <EditIcon />
+                          <Edit />
                         </button>
                         <button 
                           className="icon-btn delete" 
                           onClick={() => handleDelete(product._id)}
                           title="Delete"
                         >
-                          <TrashIcon />
+                          <Trash2 />
                         </button>
                       </td>
                     </tr>
@@ -205,4 +205,5 @@ const ManageProductsPage = () => {
 };
 
 export default ManageProductsPage;
+
 

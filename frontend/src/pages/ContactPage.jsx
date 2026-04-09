@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
-import { MailIcon, PhoneIcon, MapPinIcon, SendIcon } from '../components/icons';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { toast } from 'react-toastify';
 import './ContactPage.css';
 
@@ -39,7 +39,7 @@ const ContactPage = () => {
           <div className="contact-info">
             <Card className="info-card">
               <div className="info-icon">
-                <MailIcon />
+                <Mail />
               </div>
               <h3>Email Us</h3>
               <p>support@shopmart.com</p>
@@ -48,7 +48,7 @@ const ContactPage = () => {
 
             <Card className="info-card">
               <div className="info-icon">
-                <PhoneIcon />
+                <Phone />
               </div>
               <h3>Call Us</h3>
               <p>+1 (555) 123-4567</p>
@@ -57,7 +57,7 @@ const ContactPage = () => {
 
             <Card className="info-card">
               <div className="info-icon">
-                <MapPinIcon />
+                <MapPin />
               </div>
               <h3>Visit Us</h3>
               <p>123 Commerce Street</p>
@@ -117,7 +117,7 @@ const ContactPage = () => {
               </div>
 
               <Button type="submit" variant="primary" size="large" fullWidth>
-                <SendIcon /> Send Message
+                <Send /> Send Message
               </Button>
             </form>
           </Card>
@@ -128,4 +128,5 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
 

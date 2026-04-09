@@ -5,7 +5,7 @@ import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
 import { toast } from 'react-toastify';
 import { adminAPI, productAPI, orderAPI } from '../services/api';
-import { UsersIcon, ShoppingBagIcon, DollarSignIcon, TrendingUpIcon, PackageIcon, AlertCircleIcon, SettingsIcon, BarChartIcon, TrashIcon, UserMinusIcon, EyeIcon, RefreshIcon } from '../components/icons';
+import { Users, ShoppingBag, DollarSign, TrendingUp, Package, AlertCircle, Settings, BarChart3, Trash2, UserMinus, Eye, RefreshCw } from 'lucide-react';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
             <p className="subtitle">Comprehensive system management and analytics</p>
           </div>
           <Button onClick={() => fetchDashboardData()} variant="secondary">
-            <RefreshIcon /> Refresh Data
+            <RefreshCw /> Refresh Data
           </Button>
         </div>
 
@@ -155,7 +155,7 @@ const AdminDashboard = () => {
         <div className="stats-grid">
           <Card className="stat-card revenue-card">
             <div className="stat-icon revenue">
-              <DollarSignIcon size={32} />
+              <DollarSign size={48} />
             </div>
             <div className="stat-info">
               <h3>${(stats.totalRevenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
@@ -166,7 +166,7 @@ const AdminDashboard = () => {
 
           <Card className="stat-card revenue-card">
             <div className="stat-icon revenue">
-              <TrendingUpIcon size={32} />
+              <TrendingUp size={48} />
             </div>
             <div className="stat-info">
               <h3>${(stats.totalProfit || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
@@ -177,7 +177,7 @@ const AdminDashboard = () => {
 
           <Card className="stat-card users-card" onClick={() => setActiveView('users')}>
             <div className="stat-icon users">
-              <UsersIcon size={32} />
+              <Users size={32} />
             </div>
             <div className="stat-info">
               <h3>{stats.totalUsers.toLocaleString()}</h3>
@@ -188,7 +188,7 @@ const AdminDashboard = () => {
 
           <Card className="stat-card products-card" onClick={() => setActiveView('products')}>
             <div className="stat-icon products">
-              <ShoppingBagIcon size={32} />
+              <ShoppingBag size={48} />
             </div>
             <div className="stat-info">
               <h3>{stats.totalProducts.toLocaleString()}</h3>
@@ -202,7 +202,7 @@ const AdminDashboard = () => {
         <div className="stats-grid">
           <Card className="stat-card orders-card" onClick={() => setActiveView('orders')}>
             <div className="stat-icon orders">
-              <PackageIcon size={32} />
+              <Package size={32} />
             </div>
             <div className="stat-info">
               <h3>{stats.totalOrders.toLocaleString()}</h3>
@@ -213,7 +213,7 @@ const AdminDashboard = () => {
 
           <Card className="stat-card pending-card">
             <div className="stat-icon pending">
-              <AlertCircleIcon size={32} />
+              <AlertCircle size={32} />
             </div>
             <div className="stat-info">
               <h3>{stats.pendingOrders}</h3>
@@ -224,7 +224,7 @@ const AdminDashboard = () => {
 
           <Card className="stat-card">
             <div className="stat-icon users">
-              <UsersIcon size={32} />
+              <Users size={32} />
             </div>
             <div className="stat-info">
               <h3>{stats.activeSellers}/{stats.totalSellers}</h3>
@@ -235,7 +235,7 @@ const AdminDashboard = () => {
 
           <Card className="stat-card">
             <div className="stat-icon orders">
-              <DollarSignIcon size={32} />
+              <DollarSign size={32} />
             </div>
             <div className="stat-info">
               <h3>${stats.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
@@ -251,31 +251,31 @@ const AdminDashboard = () => {
             className={`tab-btn ${activeView === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveView('overview')}
           >
-            <BarChartIcon /> Overview
+            <BarChart3 /> Overview
           </button>
           <button 
             className={`tab-btn ${activeView === 'users' ? 'active' : ''}`}
             onClick={() => setActiveView('users')}
           >
-            <UsersIcon /> User Management
+            <Users /> User Management
           </button>
           <button 
             className={`tab-btn ${activeView === 'products' ? 'active' : ''}`}
             onClick={() => setActiveView('products')}
           >
-            <ShoppingBagIcon /> Product Management
+            <ShoppingBag /> Product Management
           </button>
           <button 
             className={`tab-btn ${activeView === 'orders' ? 'active' : ''}`}
             onClick={() => setActiveView('orders')}
           >
-            <PackageIcon /> Order Management
+            <Package /> Order Management
           </button>
           <button 
             className={`tab-btn ${activeView === 'manage' ? 'active' : ''}`}
             onClick={() => setActiveView('manage')}
           >
-            <SettingsIcon /> Manage Products
+            <Settings /> Manage Products
           </button>
         </div>
 
@@ -283,25 +283,25 @@ const AdminDashboard = () => {
         {activeView === 'overview' && (
           <div className="admin-sections">
             <Card>
-              <h2><SettingsIcon /> System Management</h2>
+              <h2><Settings /> System Management</h2>
               <div className="management-grid">
                 <button className="mgmt-btn" onClick={() => setActiveView('users')}>
-                  <UsersIcon size={24} />
+                  <Users size={24} />
                   <span>Manage Users</span>
                   <small>{stats.totalUsers} users</small>
                 </button>
                 <button className="mgmt-btn" onClick={() => setActiveView('products')}>
-                  <ShoppingBagIcon size={24} />
+                  <ShoppingBag size={24} />
                   <span>Manage Products</span>
                   <small>{stats.totalProducts} products</small>
                 </button>
                 <button className="mgmt-btn" onClick={() => setActiveView('orders')}>
-                  <PackageIcon size={24} />
+                  <Package size={24} />
                   <span>Manage Orders</span>
                   <small>{stats.pendingOrders} pending</small>
                 </button>
                 <button className="mgmt-btn" onClick={() => navigate('/admin/categories')}>
-                  <AlertCircleIcon size={24} />
+                  <AlertCircle size={24} />
                   <span>Manage Categories</span>
                   <small>8 categories</small>
                 </button>
@@ -309,7 +309,7 @@ const AdminDashboard = () => {
             </Card>
 
             <Card className="recent-activity">
-              <h2><TrendingUpIcon /> Recent Orders</h2>
+              <h2><TrendingUp /> Recent Orders</h2>
               {recentOrders.length > 0 ? (
                 <div className="table-responsive">
                   <table className="data-table">
@@ -346,7 +346,7 @@ const AdminDashboard = () => {
         {activeView === 'users' && (
           <Card>
             <div className="section-header">
-              <h2><UsersIcon /> User Management</h2>
+              <h2><Users /> User Management</h2>
               <p className="section-subtitle">Manage all registered users</p>
             </div>
             {users.length > 0 ? (
@@ -379,15 +379,15 @@ const AdminDashboard = () => {
                         <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                         <td className="action-cell">
                           <button className="icon-btn view" onClick={() => { setSelectedUser(user); setShowUserModal(true); }} title="View Details">
-                            <EyeIcon />
+                            <Eye />
                           </button>
                           {!user.isBanned && (
                             <button className="icon-btn ban" onClick={() => { setSelectedUser(user); setShowBanModal(true); }} title="Ban User">
-                              <UserMinusIcon />
+                              <UserMinus />
                             </button>
                           )}
                           <button className="icon-btn delete" onClick={() => handleDeleteUser(user._id)} title="Delete User">
-                            <TrashIcon />
+                            <Trash2 />
                           </button>
                         </td>
                       </tr>
@@ -405,7 +405,7 @@ const AdminDashboard = () => {
         {activeView === 'products' && (
           <Card>
             <div className="section-header">
-              <h2><ShoppingBagIcon /> Product Management</h2>
+              <h2><ShoppingBag /> Product Management</h2>
               <p className="section-subtitle">Monitor and manage all products</p>
             </div>
             {products.length > 0 ? (
@@ -446,10 +446,10 @@ const AdminDashboard = () => {
                         <td><span className={`status-badge ${product.status}`}>{product.status}</span></td>
                         <td className="action-cell">
                           <button className="icon-btn view" onClick={() => navigate(`/product/${product._id}`)} title="View Product">
-                            <EyeIcon />
+                            <Eye />
                           </button>
                           <button className="icon-btn ban" onClick={() => handleBanProduct(product._id)} title="Ban Product">
-                            <UserMinusIcon />
+                            <UserMinus />
                           </button>
                         </td>
                       </tr>
@@ -467,7 +467,7 @@ const AdminDashboard = () => {
         {activeView === 'orders' && (
           <Card>
             <div className="section-header">
-              <h2><PackageIcon /> Order Management</h2>
+              <h2><Package /> Order Management</h2>
               <p className="section-subtitle">Track and manage all orders</p>
             </div>
             {recentOrders.length > 0 ? (
@@ -495,7 +495,7 @@ const AdminDashboard = () => {
                         <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                         <td className="action-cell">
                           <button className="icon-btn view" onClick={() => navigate(`/orders`)} title="View Order">
-                            <EyeIcon />
+                            <Eye />
                           </button>
                         </td>
                       </tr>
@@ -513,7 +513,7 @@ const AdminDashboard = () => {
         {activeView === 'manage' && (
           <Card>
             <div className="section-header">
-              <h2><SettingsIcon /> Manage All Products</h2>
+              <h2><Settings /> Manage All Products</h2>
               <p className="subtitle">Comprehensive product management across all sellers</p>
             </div>
             <div className="table-responsive">
@@ -558,7 +558,7 @@ const AdminDashboard = () => {
                         <td className="amount">${((product.price || 0) * 0.20).toFixed(2)}</td>
                         <td className="action-cell">
                           <button className="icon-btn view" onClick={() => navigate(`/product/${product._id}`)} title="View Product">
-                            <EyeIcon />
+                            <Eye />
                           </button>
                         </td>
                       </tr>
@@ -624,4 +624,5 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { messageAPI } from '../services/api';
 import Card from '../components/common/Card';
 
-import { SendIcon, MessageSquareIcon } from '../components/icons';
+import { Send, MessageSquare } from 'lucide-react';
 import './MessagingPage.css';
 
 const MessagingPage = () => {

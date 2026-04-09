@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { CloseIcon } from '../../icons';
+import { X } from 'lucide-react';
 import './Modal.css';
 
 /**
@@ -73,7 +73,7 @@ const Modal = ({
                 onClick={onClose}
                 aria-label="Close modal"
               >
-                <CloseIcon size={20} />
+                <X size={20} />
               </button>
             )}
           </div>

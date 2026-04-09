@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useNotification } from '../context/NotificationContext';
 import Card from '../components/common/Card';
-import { BellIcon, TrashIcon } from '../components/icons';
+import { Bell, Trash2 } from 'lucide-react';
 import './NotificationCenter.css';
 
 const NotificationCenter = () => {
@@ -24,7 +24,7 @@ const NotificationCenter = () => {
     return (
       <div className="notifications-empty">
         <div className="container">
-          <BellIcon className="empty-icon" />
+          <Bell className="empty-icon" />
           <h2>No notifications</h2>
           <p>You're all caught up!</p>
         </div>
@@ -63,7 +63,7 @@ const NotificationCenter = () => {
                   className="delete-btn"
                   onClick={() => handleDelete(notification._id)}
                 >
-                  <TrashIcon />
+                  <Trash2 />
                 </button>
               </div>
             </Card>
@@ -75,4 +75,5 @@ const NotificationCenter = () => {
 };
 
 export default NotificationCenter;
+
 

@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { orderAPI } from '../services/api';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
-import { ShoppingBagIcon, PackageIcon, TruckIcon, DollarSignIcon, ClockIcon } from '../components/icons';
+import { ShoppingBag, Package, Truck, DollarSign, Clock } from 'lucide-react';
 import './BuyerDashboard.css';
 
 const BuyerDashboard = () => {
@@ -77,7 +77,7 @@ const BuyerDashboard = () => {
           <div className="header-actions">
             <Button
               variant="secondary"
-              icon={<ShoppingBagIcon />}
+              icon={<ShoppingBag />}
               onClick={() => window.location.href = '/products'}
             >
               Continue Shopping
@@ -88,7 +88,7 @@ const BuyerDashboard = () => {
         <div className="stats-grid">
           <Card className="stat-card">
             <div className="stat-icon" style={{ backgroundColor: '#E3F2FD' }}>
-              <ShoppingBagIcon style={{ color: '#1976D2' }} />
+              <ShoppingBag style={{ color: '#1976D2' }} />
             </div>
             <div className="stat-info">
               <h3>{stats.totalOrders}</h3>
@@ -98,7 +98,7 @@ const BuyerDashboard = () => {
 
           <Card className="stat-card">
             <div className="stat-icon" style={{ backgroundColor: '#FFF3E0' }}>
-              <ClockIcon style={{ color: '#FB8C00' }} />
+              <Clock style={{ color: '#FB8C00' }} />
             </div>
             <div className="stat-info">
               <h3>{stats.pendingDeliveries}</h3>
@@ -108,7 +108,7 @@ const BuyerDashboard = () => {
 
           <Card className="stat-card">
             <div className="stat-icon" style={{ backgroundColor: '#E8F5E9' }}>
-              <PackageIcon style={{ color: '#43A047' }} />
+              <Package style={{ color: '#43A047' }} />
             </div>
             <div className="stat-info">
               <h3>{stats.completedOrders}</h3>
@@ -118,7 +118,7 @@ const BuyerDashboard = () => {
 
           <Card className="stat-card">
             <div className="stat-icon" style={{ backgroundColor: '#F3E5F5' }}>
-              <DollarSignIcon style={{ color: '#8E24AA' }} />
+              <DollarSign style={{ color: '#8E24AA' }} />
             </div>
             <div className="stat-info">
               <h3>${stats.totalSpent.toFixed(2)}</h3>
@@ -132,13 +132,13 @@ const BuyerDashboard = () => {
             className={activeView === 'overview' ? 'tab-btn active' : 'tab-btn'}
             onClick={() => setActiveView('overview')}
           >
-            <ShoppingBagIcon /> Overview
+            <ShoppingBag /> Overview
           </button>
           <button
             className={activeView === 'orders' ? 'tab-btn active' : 'tab-btn'}
             onClick={() => setActiveView('orders')}
           >
-            <PackageIcon /> My Orders
+            <Package /> My Orders
           </button>
         </div>
 
@@ -158,7 +158,7 @@ const BuyerDashboard = () => {
                   
                   {orders.length === 0 ? (
                     <div className="empty-state">
-                      <ShoppingBagIcon className="empty-icon" />
+                      <ShoppingBag className="empty-icon" />
                       <h3>No Orders Yet</h3>
                       <p>Start shopping to see your orders here</p>
                       <Link to="/products">
@@ -193,7 +193,7 @@ const BuyerDashboard = () => {
                               <td>
                                 <Link to={`/track-order/${order._id}`}>
                                   <Button variant="secondary" size="small">
-                                    <TruckIcon /> Track
+                                    <Truck /> Track
                                   </Button>
                                 </Link>
                               </td>
@@ -207,7 +207,7 @@ const BuyerDashboard = () => {
 
                 <div className="quick-links">
                   <Card className="quick-link-card">
-                    <ShoppingBagIcon className="link-icon" />
+                    <ShoppingBag className="link-icon" />
                     <h3>Browse Products</h3>
                     <p>Discover new products</p>
                     <Link to="/products">
@@ -216,7 +216,7 @@ const BuyerDashboard = () => {
                   </Card>
 
                   <Card className="quick-link-card">
-                    <PackageIcon className="link-icon" />
+                    <Package className="link-icon" />
                     <h3>Order History</h3>
                     <p>View all your orders</p>
                     <Link to="/orders">
@@ -225,7 +225,7 @@ const BuyerDashboard = () => {
                   </Card>
 
                   <Card className="quick-link-card">
-                    <TruckIcon className="link-icon" />
+                    <Truck className="link-icon" />
                     <h3>Track Orders</h3>
                     <p>Track your deliveries</p>
                     <Link to="/orders">
@@ -241,7 +241,7 @@ const BuyerDashboard = () => {
                 <h2>All Orders</h2>
                 {orders.length === 0 ? (
                   <div className="empty-state">
-                    <ShoppingBagIcon className="empty-icon" />
+                    <ShoppingBag className="empty-icon" />
                     <h3>No Orders Yet</h3>
                     <p>Start shopping to see your orders here</p>
                     <Link to="/products">
@@ -276,7 +276,7 @@ const BuyerDashboard = () => {
                             <td>
                               <Link to={`/track-order/${order._id}`}>
                                 <Button variant="secondary" size="small">
-                                  <TruckIcon /> Track
+                                  <Truck /> Track
                                 </Button>
                               </Link>
                             </td>
@@ -296,4 +296,5 @@ const BuyerDashboard = () => {
 };
 
 export default BuyerDashboard;
+
 

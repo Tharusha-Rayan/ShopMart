@@ -7,7 +7,7 @@ import { NotificationProvider } from './context/NotificationContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import { ToastContainer } from 'react-toastify';
-import { LoaderIcon } from './components/icons';
+import { Loader2 } from 'lucide-react';
 import 'react-toastify/dist/ReactToastify.css';
 import './styles/globals.css';
 import './index.css';
@@ -38,7 +38,7 @@ const ShippingInfoPage = lazy(() => import('./pages/ShippingInfoPage'));
 // Loading component
 const LoadingSpinner = () => (
   <div className="loading-wrapper">
-    <LoaderIcon size={48} color="var(--color-primary)" />
+    <Loader2 size={48} color="var(--color-primary)" className="animate-spin" />
     <p className="loading-text">Loading...</p>
   </div>
 );

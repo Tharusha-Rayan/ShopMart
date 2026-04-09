@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { productAPI } from '../services/api';
 import ProductCard from '../components/product/ProductCard';
 import Button from '../components/common/Button';
-import { StarIcon, TruckIcon, CreditCardIcon, MailIcon } from '../components/icons';
+import { Star, Truck, CreditCard, Mail } from 'lucide-react';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -76,22 +76,22 @@ const HomePage = () => {
         <div className="container">
           <div className="promo-grid">
             <div className="promo-card">
-              <div className="promo-icon"><TruckIcon /></div>
+              <div className="promo-icon"><Truck /></div>
               <h3>Fast Shipping</h3>
               <p>Quick delivery nationwide</p>
             </div>
             <div className="promo-card">
-              <div className="promo-icon"><StarIcon /></div>
+              <div className="promo-icon"><Star /></div>
               <h3>New Arrivals</h3>
               <p>Fresh products daily</p>
             </div>
             <div className="promo-card">
-              <div className="promo-icon"><CreditCardIcon /></div>
+              <div className="promo-icon"><CreditCard /></div>
               <h3>Secure Payment</h3>
               <p>100% secure checkout</p>
             </div>
             <div className="promo-card">
-              <div className="promo-icon"><StarIcon /></div>
+              <div className="promo-icon"><Star /></div>
               <h3>Quality Products</h3>
               <p>Verified sellers only</p>
             </div>
@@ -103,4 +103,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
 

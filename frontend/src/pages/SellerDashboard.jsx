@@ -7,7 +7,7 @@ import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
 import Input from '../components/common/Input';
 import { toast } from 'react-toastify';
-import { DollarSignIcon, PackageIcon, ShoppingBagIcon, TrendingUpIcon, PlusIcon, EditIcon, TrashIcon, EyeIcon, MessageSquareIcon, RefreshIcon, BarChartIcon, SettingsIcon, CheckCircleIcon, TruckIcon, CloseIcon } from '../components/icons';
+import { DollarSign, Package, ShoppingBag, TrendingUp, Plus, Edit, Trash2, Eye, MessageSquare, RefreshCw, BarChart3, Settings, CheckCircle, Truck, X } from 'lucide-react';
 import './SellerDashboard.css';
 
 const SellerDashboard = () => {
@@ -128,7 +128,7 @@ const SellerDashboard = () => {
             <p className="subtitle">Manage your products and orders</p>
           </div>
           <Button onClick={() => fetchDashboardData()} variant="secondary">
-            <RefreshIcon /> Refresh
+            <RefreshCw /> Refresh
           </Button>
         </div>
 
@@ -136,7 +136,7 @@ const SellerDashboard = () => {
         <div className="stats-grid">
           <Card className="stat-card revenue-card">
             <div className="stat-icon revenue">
-              <DollarSignIcon size={32} />
+              <DollarSign size={32} />
             </div>
             <div className="stat-info">
               <h3>${stats?.totalRevenue?.toFixed(2) || '0.00'}</h3>
@@ -147,7 +147,7 @@ const SellerDashboard = () => {
 
           <Card className="stat-card products-card" onClick={() => setActiveView('products')}>
             <div className="stat-icon products">
-              <ShoppingBagIcon size={32} />
+              <ShoppingBag size={32} />
             </div>
             <div className="stat-info">
               <h3>{stats?.totalProducts || 0}</h3>
@@ -158,7 +158,7 @@ const SellerDashboard = () => {
 
           <Card className="stat-card orders-card" onClick={() => setActiveView('orders')}>
             <div className="stat-icon orders">
-              <PackageIcon size={32} />
+              <Package size={32} />
             </div>
             <div className="stat-info">
               <h3>{stats?.totalOrders || 0}</h3>
@@ -169,7 +169,7 @@ const SellerDashboard = () => {
 
           <Card className="stat-card pending-card">
             <div className="stat-icon pending">
-              <TrendingUpIcon size={32} />
+              <TrendingUp size={32} />
             </div>
             <div className="stat-info">
               <h3>{stats?.pendingOrders || 0}</h3>
@@ -185,25 +185,25 @@ const SellerDashboard = () => {
             className={`tab-btn ${activeView === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveView('overview')}
           >
-            <BarChartIcon /> Overview
+            <BarChart3 /> Overview
           </button>
           <button 
             className={`tab-btn ${activeView === 'products' ? 'active' : ''}`}
             onClick={() => setActiveView('products')}
           >
-            <ShoppingBagIcon /> My Products
+            <ShoppingBag /> My Products
           </button>
           <button 
             className={`tab-btn ${activeView === 'orders' ? 'active' : ''}`}
             onClick={() => setActiveView('orders')}
           >
-            <PackageIcon /> Orders
+            <Package /> Orders
           </button>
           <button 
             className={`tab-btn ${activeView === 'manage' ? 'active' : ''}`}
             onClick={() => setActiveView('manage')}
           >
-            <SettingsIcon /> Manage Products
+            <Settings /> Manage Products
           </button>
         </div>
 
@@ -214,26 +214,26 @@ const SellerDashboard = () => {
               <h2>Quick Actions</h2>
               <div className="quick-actions">
                 <button className="action-btn" onClick={() => setShowAddProductModal(true)}>
-                  <PlusIcon size={24} />
+                  <Plus size={24} />
                   <span>Add New Product</span>
                 </button>
                 <button className="action-btn" onClick={() => setActiveView('products')}>
-                  <EditIcon size={24} />
+                  <Edit size={24} />
                   <span>Manage Inventory</span>
                 </button>
                 <button className="action-btn" onClick={() => setActiveView('orders')}>
-                  <PackageIcon size={24} />
+                  <Package size={24} />
                   <span>View Orders</span>
                 </button>
                 <button className="action-btn" onClick={() => navigate('/messages')}>
-                  <MessageSquareIcon size={24} />
+                  <MessageSquare size={24} />
                   <span>Customer Messages</span>
                 </button>
               </div>
             </Card>
 
             <Card className="recent-activity">
-              <h2><TrendingUpIcon /> Recent Orders</h2>
+              <h2><TrendingUp /> Recent Orders</h2>
               {orders.length > 0 ? (
                 <div className="table-responsive">
                   <table className="data-table">
@@ -270,9 +270,9 @@ const SellerDashboard = () => {
         {activeView === 'products' && (
           <Card>
             <div className="section-header">
-              <h2><ShoppingBagIcon /> My Products</h2>
+              <h2><ShoppingBag /> My Products</h2>
               <Button onClick={() => setShowAddProductModal(true)} variant="primary">
-                <PlusIcon /> Add Product
+                <Plus /> Add Product
               </Button>
             </div>
             {products.length > 0 ? (
@@ -315,13 +315,13 @@ const SellerDashboard = () => {
                         <td>{product.sold || 0}</td>
                         <td className="action-cell">
                           <button className="icon-btn view" onClick={() => navigate(`/product/${product._id}`)} title="View Product">
-                            <EyeIcon />
+                            <Eye />
                           </button>
                           <button className="icon-btn edit" onClick={() => navigate(`/product/${product._id}/edit`)} title="Edit Product">
-                            <EditIcon />
+                            <Edit />
                           </button>
                           <button className="icon-btn delete" onClick={() => handleDeleteProduct(product._id)} title="Delete Product">
-                            <TrashIcon />
+                            <Trash2 />
                           </button>
                         </td>
                       </tr>
@@ -333,7 +333,7 @@ const SellerDashboard = () => {
               <div className="no-data">
                 <p>No products yet. Start by adding your first product!</p>
                 <Button onClick={() => setShowAddProductModal(true)} variant="primary">
-                  <PlusIcon /> Add Your First Product
+                  <Plus /> Add Your First Product
                 </Button>
               </div>
             )}
@@ -344,7 +344,7 @@ const SellerDashboard = () => {
         {activeView === 'orders' && (
           <Card>
             <div className="section-header">
-              <h2><PackageIcon /> Order Management</h2>
+              <h2><Package /> Order Management</h2>
               <p className="section-subtitle">Track and manage your orders</p>
             </div>
             {orders.length > 0 ? (
@@ -372,7 +372,7 @@ const SellerDashboard = () => {
                         <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                         <td className="action-cell">
                           <button className="icon-btn view" onClick={() => handleViewOrder(order)} title="View Details">
-                            <EyeIcon />
+                            <Eye />
                           </button>
                           
                           {order.status === 'pending' && (
@@ -382,7 +382,7 @@ const SellerDashboard = () => {
                                 onClick={() => handleUpdateOrderStatus(order._id, 'processing')} 
                                 title="Mark as Processing"
                               >
-                                <RefreshIcon />
+                                <RefreshCw />
                               </button>
                               <button 
                                 className="icon-btn cancel" 
@@ -393,7 +393,7 @@ const SellerDashboard = () => {
                                 }} 
                                 title="Cancel Order"
                               >
-                                <CloseIcon />
+                                <X />
                               </button>
                             </>
                           )}
@@ -405,7 +405,7 @@ const SellerDashboard = () => {
                                 onClick={() => handleUpdateOrderStatus(order._id, 'shipped')} 
                                 title="Mark as Shipped"
                               >
-                                <TruckIcon />
+                                <Truck />
                               </button>
                               <button 
                                 className="icon-btn cancel" 
@@ -416,7 +416,7 @@ const SellerDashboard = () => {
                                 }} 
                                 title="Cancel Order"
                               >
-                                <CloseIcon />
+                                <X />
                               </button>
                             </>
                           )}
@@ -427,7 +427,7 @@ const SellerDashboard = () => {
                               onClick={() => handleUpdateOrderStatus(order._id, 'delivered')} 
                               title="Mark as Delivered"
                             >
-                              <CheckCircleIcon />
+                              <CheckCircle />
                             </button>
                           )}
                           
@@ -437,7 +437,7 @@ const SellerDashboard = () => {
                               onClick={() => navigate(`/messages`)} 
                               title="Message Customer"
                             >
-                              <MessageSquareIcon />
+                              <MessageSquare />
                             </button>
                           )}
                         </td>
@@ -456,7 +456,7 @@ const SellerDashboard = () => {
         {activeView === 'manage' && (
           <Card>
             <div className="section-header">
-              <h2><SettingsIcon /> Manage Products</h2>
+              <h2><Settings /> Manage Products</h2>
               <p className="section-subtitle">Control product status and discounts</p>
             </div>
 
@@ -550,21 +550,21 @@ const SellerDashboard = () => {
                             onClick={() => navigate(`/product/${product._id}`)}
                             title="View"
                           >
-                            <EyeIcon />
+                            <Eye />
                           </button>
                           <button 
                             className="icon-btn edit" 
                             onClick={() => navigate(`/product/${product._id}/edit`)}
                             title="Edit"
                           >
-                            <EditIcon />
+                            <Edit />
                           </button>
                           <button 
                             className="icon-btn delete" 
                             onClick={() => handleDeleteProduct(product._id)}
                             title="Delete"
                           >
-                            <TrashIcon />
+                            <Trash2 />
                           </button>
                         </td>
                       </tr>
@@ -770,4 +770,5 @@ const SellerDashboard = () => {
 };
 
 export default SellerDashboard;
+
 

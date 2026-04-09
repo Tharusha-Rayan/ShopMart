@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { orderAPI } from '../services/api';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
-import { PackageIcon, TruckIcon, CheckIcon, ClockIcon, MapPinIcon } from '../components/icons';
+import { Package, Truck, Check, Clock, MapPin } from 'lucide-react';
 import './TrackOrderPage.css';
 
 const TrackOrderPage = () => {
@@ -33,13 +33,13 @@ const TrackOrderPage = () => {
 
   const getStatusIcon = (status) => {
     const icons = {
-      pending: <ClockIcon />,
-      processing: <PackageIcon />,
-      shipped: <TruckIcon />,
-      out_for_delivery: <TruckIcon />,
-      delivered: <CheckIcon />
+      pending: <Clock />,
+      processing: <Package />,
+      shipped: <Truck />,
+      out_for_delivery: <Truck />,
+      delivered: <Check />
     };
-    return icons[status] || <ClockIcon />;
+    return icons[status] || <Clock />;
   };
 
   const getStatusProgress = (status) => {
@@ -54,11 +54,11 @@ const TrackOrderPage = () => {
   };
 
   const statusSteps = [
-    { key: 'pending', label: 'Order Placed', icon: <CheckIcon /> },
-    { key: 'processing', label: 'Processing', icon: <PackageIcon /> },
-    { key: 'shipped', label: 'Shipped', icon: <TruckIcon /> },
-    { key: 'out_for_delivery', label: 'Out for Delivery', icon: <TruckIcon /> },
-    { key: 'delivered', label: 'Delivered', icon: <CheckIcon /> }
+    { key: 'pending', label: 'Order Placed', icon: <Check /> },
+    { key: 'processing', label: 'Processing', icon: <Package /> },
+    { key: 'shipped', label: 'Shipped', icon: <Truck /> },
+    { key: 'out_for_delivery', label: 'Out for Delivery', icon: <Truck /> },
+    { key: 'delivered', label: 'Delivered', icon: <Check /> }
   ];
 
   const isStepCompleted = (stepKey) => {
@@ -84,7 +84,7 @@ const TrackOrderPage = () => {
         <div className="container">
           <Card>
             <div className="error-state">
-              <PackageIcon className="error-icon" />
+              <Package className="error-icon" />
               <h2>Order Not Found</h2>
               <p>We couldn't find an order with this ID</p>
               <Link to="/orders">
@@ -174,7 +174,7 @@ const TrackOrderPage = () => {
 
           <div className="track-sidebar">
             <Card>
-              <h3><MapPinIcon /> Delivery Address</h3>
+              <h3><MapPin /> Delivery Address</h3>
               <div className="shipping-address">
                 <p><strong>{order.shippingAddress.fullName}</strong></p>
                 <p>{order.shippingAddress.addressLine1}</p>
@@ -224,4 +224,5 @@ const TrackOrderPage = () => {
 };
 
 export default TrackOrderPage;
+
 

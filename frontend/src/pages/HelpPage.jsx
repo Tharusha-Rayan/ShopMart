@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Card from '../components/common/Card';
-import { ChevronDownIcon, ChevronUpIcon, HelpCircleIcon } from '../components/icons';
+import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
 import './HelpPage.css';
 
 const HelpPage = () => {
@@ -57,7 +57,7 @@ const HelpPage = () => {
     <div className="help-page">
       <div className="container">
         <div className="help-header">
-          <HelpCircleIcon className="help-icon" />
+          <HelpCircle className="help-icon" />
           <h1>Help Center</h1>
           <p>Find answers to frequently asked questions</p>
         </div>
@@ -72,7 +72,7 @@ const HelpPage = () => {
                   onClick={() => toggleFAQ(index)}
                 >
                   <h3>{faq.question}</h3>
-                  {activeIndex === index ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                  {activeIndex === index ? <ChevronUp /> : <ChevronDown />}
                 </div>
                 {activeIndex === index && (
                   <div className="faq-answer">
@@ -97,4 +97,5 @@ const HelpPage = () => {
 };
 
 export default HelpPage;
+
 

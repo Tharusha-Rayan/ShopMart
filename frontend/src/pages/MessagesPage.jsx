@@ -1,11 +1,11 @@
-﻿
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { messageAPI } from '../services/api';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
-import { SendIcon, MailIcon, UserIcon, PackageIcon } from '../components/icons';
+import { Send, Mail, User, Package } from 'lucide-react';
 import './MessagesPage.css';
 
 const MessagesPage = () => {
@@ -92,7 +92,7 @@ const MessagesPage = () => {
           {/* Conversations List */}
           <div className="conversations-list">
             <Card>
-              <h3><MailIcon /> Conversations</h3>
+              <h3><Mail /> Conversations</h3>
               {conversations.length > 0 ? (
                 <div className="conversation-items">
                   {conversations.map(conv => (
@@ -102,7 +102,7 @@ const MessagesPage = () => {
                       onClick={() => setSelectedConversation(conv)}
                     >
                       <div className="conversation-avatar">
-                        <UserIcon />
+                        <User />
                       </div>
                       <div className="conversation-info">
                         <div className="conversation-header">
@@ -112,7 +112,7 @@ const MessagesPage = () => {
                           </span>
                         </div>
                         <p className="conversation-preview">
-                          {conv.product?.name && <><PackageIcon /> {conv.product.name}</>}
+                          {conv.product?.name && <><Package /> {conv.product.name}</>}
                         </p>
                         <p className="conversation-last-message">
                           {conv.lastMessage?.content?.substring(0, 50)}...
@@ -141,7 +141,7 @@ const MessagesPage = () => {
                     <h3>{selectedConversation.otherUser?.name}</h3>
                     {selectedConversation.product && (
                       <p className="product-ref">
-                        <PackageIcon /> {selectedConversation.product.name}
+                        <Package /> {selectedConversation.product.name}
                       </p>
                     )}
                   </div>
@@ -172,14 +172,14 @@ const MessagesPage = () => {
                     className="message-input"
                   />
                   <Button type="submit" variant="primary">
-                    <SendIcon /> Send
+                    <Send /> Send
                   </Button>
                 </form>
               </Card>
             ) : (
               <Card className="messages-card">
                 <div className="empty-state">
-                  <MailIcon size={64} />
+                  <Mail size={64} />
                   <h3>Select a conversation</h3>
                   <p>Choose a conversation from the left to start messaging</p>
                 </div>
@@ -193,6 +193,7 @@ const MessagesPage = () => {
 };
 
 export default MessagesPage;
+
 
 
 

@@ -7,7 +7,7 @@ import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import Card from '../components/common/Card';
 import { toast } from 'react-toastify';
-import { CreditCardIcon, MapPinIcon } from '../components/icons';
+import { CreditCard, MapPin } from 'lucide-react';
 import './CheckoutPage.css';
 
 const CheckoutPage = () => {
@@ -118,7 +118,7 @@ const CheckoutPage = () => {
           <div className="checkout-grid">
             <div className="checkout-forms">
               <Card>
-                <h2><MapPinIcon /> Shipping Address</h2>
+                <h2><MapPin /> Shipping Address</h2>
                 <Input
                   label="Full Name"
                   name="fullName"
@@ -189,7 +189,7 @@ const CheckoutPage = () => {
               </Card>
 
               <Card>
-                <h2><CreditCardIcon /> Payment Method</h2>
+                <h2><CreditCard /> Payment Method</h2>
                 <div className="payment-options">
                   <label className="payment-option disabled">
                     <input
@@ -302,4 +302,5 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+
 
