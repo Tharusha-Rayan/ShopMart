@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import { Heart, ShoppingCart, Eye, Trash2 } from 'lucide-react';
+import { resolveImageUrl } from '../utils/imageUrl';
 import './WishlistPage.css';
 
 const WishlistPage = () => {
@@ -14,7 +15,7 @@ const WishlistPage = () => {
 
   const handleAddToCart = async (product) => {
     try {
-      await addToCart(product._id, 1);
+      await addToCart(product._id || product.id, 1);
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -32,7 +33,7 @@ const WishlistPage = () => {
   };
 
   const handleViewProduct = (productId) => {
-    navigate(`/products/${productId}`);
+    navigate(`/product/${productId}`);
   };
 
   if (wishlist.length === 0) {
@@ -68,23 +69,36 @@ const WishlistPage = () => {
           <Link to="/products" className="btn btn-outline">
             Continue Shopping
           </Link>
-        </div>
+        </div> 
         
         <div className="wishlist-grid">
-          {wishlist.map((product) => (
-            <div key={product._id || product.id} className="wishlist-item">
+          {wishlist.map((product) => {
+            const productId = product._id || product.id;
+            const basePrice = Number(product.price ?? product.originalPrice ?? 0);
+            const discount = Number(product.discount ?? 0);
+            const fallbackDiscountPrice = discount > 0 ? Number((basePrice * (1 - discount / 100)).toFixed(2)) : basePrice;
+            const currentPrice = Number(product.discountPrice ?? fallbackDiscountPrice);
+            const originalPrice = Number(product.originalPrice ?? basePrice);
+            const hasDiscount = originalPrice > currentPrice;
+            const discountPercent = hasDiscount && originalPrice > 0
+              ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
+              : 0;
+
+            return (
+            <div key={productId} className="wishlist-item">
               <div className="item-image">
-                <img 
-                  src={product.images?.[0] || '/api/placeholder/300/300'} 
-                  alt={product.name}
-                  onError={(e) => {
-                    e.target.src = '/api/placeholder/300/300';
-                  }}
-                />
+                  {resolveImageUrl(product.images?.[0]?.url || product.images?.[0]) ? (
+                    <img 
+                      src={resolveImageUrl(product.images?.[0]?.url || product.images?.[0])} 
+                      alt={product.name}
+                    />
+                  ) : (
+                    <div className="wishlist-image-empty">No image available</div>
+                  )}
                 <div className="item-overlay">
                   <button 
                     className="overlay-btn view-btn"
-                    onClick={() => handleViewProduct(product._id)}
+                    onClick={() => handleViewProduct(productId)}
                   >
                     <Eye size={18} />
                   </button>
@@ -94,20 +108,24 @@ const WishlistPage = () => {
               <div className="item-details">
                 <h3 className="item-name">{product.name}</h3>
                 <p className="item-description">
-                  {product.description?.substring(0, 100)}...
+                  {product.description ? `${product.description.substring(0, 100)}...` : 'No description available'}
+                </p>
+
+                <p className="item-meta">
+                  Stock: {typeof product.stock === 'number' ? product.stock : 'N/A'}
                 </p>
                 
                 <div className="item-price">
-                  {product.discountPrice ? (
+                  {hasDiscount ? (
                     <>
-                      <span className="current-price">${product.discountPrice}</span>
-                      <span className="original-price">${product.originalPrice}</span>
+                      <span className="current-price">${currentPrice.toFixed(2)}</span>
+                      <span className="original-price">${originalPrice.toFixed(2)}</span>
                       <span className="discount-badge">
-                        {Math.round(((product.originalPrice - product.discountPrice) / product.originalPrice) * 100)}% OFF
+                        {discountPercent}% OFF
                       </span>
                     </>
                   ) : (
-                    <span className="current-price">${product.originalPrice}</span>
+                    <span className="current-price">${currentPrice.toFixed(2)}</span>
                   )}
                 </div>
                 
@@ -121,16 +139,17 @@ const WishlistPage = () => {
                   </button>
                   <button 
                     className="btn btn-danger remove-btn"
-                    onClick={() => handleRemoveFromWishlist(product._id)}
-                    disabled={isRemoving[product._id]}
+                    onClick={() => handleRemoveFromWishlist(productId)}
+                    disabled={isRemoving[productId]}
                   >
                     <Trash2 size={18} />
-                    {isRemoving[product._id] ? 'Removing...' : 'Remove'}
+                    {isRemoving[productId] ? 'Removing...' : 'Remove'}
                   </button>
                 </div>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       </div>
     </div>

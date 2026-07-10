@@ -17,6 +17,17 @@ const productSchema = new mongoose.Schema({
     required: [true, 'Please provide product price'],
     min: [0, 'Price cannot be negative']
   },
+  basePrice: {
+    type: Number,
+    default: null,
+    min: [0, 'Base price cannot be negative']
+  },
+  profitPercentage: {
+    type: Number,
+    default: 0,
+    min: [0, 'Profit percentage cannot be negative'],
+    max: [1000, 'Profit percentage cannot exceed 1000%']
+  },
   originalPrice: {
     type: Number,
     default: null

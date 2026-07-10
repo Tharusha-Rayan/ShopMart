@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://ecm.bonto.run',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -44,12 +44,8 @@ export const authAPI = {
 export const productAPI = {
   getAll: (params) => API.get('/api/products', { params }),
   getOne: (id) => API.get(`/api/products/${id}`),
-  create: (data) => API.post('/api/products', data, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  }),
-  update: (id, data) => API.put(`/api/products/${id}`, data, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  }),
+  create: (data) => API.post('/api/products', data),
+  update: (id, data) => API.put(`/api/products/${id}`, data),
   updateStatus: (id, data) => API.put(`/api/products/${id}/status`, data),
   delete: (id) => API.delete(`/api/products/${id}`),
   getFeatured: () => API.get('/api/products/featured'),
@@ -129,17 +125,8 @@ export const adminAPI = {
   getAllUsers: () => API.get('/api/admin/users'),
   updateUser: (id, data) => API.put(`/api/admin/users/${id}`, data),
   banUser: (id, reason) => API.put(`/api/admin/users/${id}/ban`, { reason }),
-  deleteUser: (id) => API.delete(`/api/admin/users/${id}`),
   getAllProducts: () => API.get('/api/admin/products'),
   banProduct: (id) => API.put(`/api/admin/products/${id}/ban`)
-};
-
-// Seller API
-export const sellerAPI = {
-  getStats: () => API.get('/api/seller/stats'),
-  getProducts: () => API.get('/api/seller/products'),
-  getOrders: () => API.get('/api/seller/orders'),
-  updateOrderStatus: (orderId, status) => API.put(`/api/orders/${orderId}/status`, { status })
 };
 
 export const aiAPI = {

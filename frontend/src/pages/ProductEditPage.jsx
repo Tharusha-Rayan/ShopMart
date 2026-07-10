@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { productAPI, categoryAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import { resolveImageUrl } from '../utils/imageUrl';
 import './ProductEditPage.css';
 
 const ProductEditPage = () => {
@@ -20,11 +21,9 @@ const ProductEditPage = () => {
     stock: '',
     discount: 0,
     status: 'active',
-    specifications: {}
+    specifications: {},
+    imageLinks: ''
   });
-  const [images, setImages] = useState([]);
-  const [existingImages, setExistingImages] = useState([]);
-  const [imagesToRemove, setImagesToRemove] = useState([]);
 
   useEffect(() => {
     fetchProductAndCategories();
@@ -38,17 +37,6 @@ const ProductEditPage = () => {
       ]);
 
       const product = productRes.data.data;
-      
-      // Check if user is authorized to edit this product
-      if (user.role === 'seller') {
-        const sellerId = product.seller?._id || product.seller;
-        const userId = user._id || user.id;
-        if (sellerId && userId && sellerId.toString() !== userId.toString()) {
-          toast.error('You are not authorized to edit this product');
-          navigate('/seller/dashboard');
-          return;
-        }
-      }
 
       setFormData({
         name: product.name || '',
@@ -58,17 +46,20 @@ const ProductEditPage = () => {
         stock: product.stock || '',
         discount: product.discount || 0,
         status: product.status || 'active',
-        specifications: product.specifications || {}
+        specifications: product.specifications || {},
+        imageLinks: (product.images || [])
+          .map((image) => image?.url)
+          .filter(Boolean)
+          .join('\n')
       });
 
-      setExistingImages(product.images || []);
       setCategories(categoriesRes.data.data || []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching product:', error);
       const errorMsg = error.response?.data?.error || error.message || 'Failed to load product';
       toast.error(errorMsg);
-      navigate('/seller/dashboard');
+      navigate('/admin/dashboard');
     }
   };
 
@@ -80,19 +71,15 @@ const ProductEditPage = () => {
     }));
   };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length + existingImages.length - imagesToRemove.length > 5) {
-      toast.error('Maximum 5 images allowed');
-      return;
-    }
-    setImages(files);
+  const parseImageLinks = (value) => {
+    return value
+      .split(/[\n,]/)
+      .map((link) => link.trim())
+      .filter(Boolean)
+      .slice(0, 5);
   };
 
-  const handleRemoveExistingImage = (imageUrl) => {
-    setImagesToRemove(prev => [...prev, imageUrl]);
-    setExistingImages(prev => prev.filter(img => img !== imageUrl));
-  };
+  const imageUrls = parseImageLinks(formData.imageLinks);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,28 +91,18 @@ const ProductEditPage = () => {
 
     try {
       setSubmitting(true);
-      const submitData = new FormData();
-      
-      // Append all form fields
-      Object.keys(formData).forEach(key => {
-        if (key === 'specifications') {
-          submitData.append(key, JSON.stringify(formData[key]));
-        } else {
-          submitData.append(key, formData[key]);
-        }
-      });
-
-      // Append new images
-      images.forEach(image => {
-        submitData.append('images', image);
-      });
-
-      // Append existing images to keep
-      submitData.append('existingImages', JSON.stringify(existingImages));
+      const submitData = {
+        ...formData,
+        price: Number(formData.price),
+        stock: Number(formData.stock),
+        discount: Number(formData.discount),
+        specifications: formData.specifications,
+        images: imageUrls.map((url) => ({ url, public_id: null }))
+      };
 
       await productAPI.update(id, submitData);
       toast.success('Product updated successfully!');
-      navigate('/seller/dashboard');
+      navigate('/admin/dashboard');
     } catch (error) {
       console.error('Error updating product:', error);
       toast.error(error.response?.data?.error || 'Failed to update product');
@@ -143,7 +120,7 @@ const ProductEditPage = () => {
       <div className="product-edit-container">
         <div className="edit-header">
           <h1>Edit Product</h1>
-          <button className="btn-secondary" onClick={() => navigate('/seller/dashboard')}>
+          <button className="btn-secondary" onClick={() => navigate('/admin/dashboard')}>
             Cancel
           </button>
         </div>
@@ -257,21 +234,13 @@ const ProductEditPage = () => {
 
           <div className="form-section">
             <h2>Product Images</h2>
-            
-            {existingImages.length > 0 && (
+            {imageUrls.length > 0 && (
               <div className="existing-images">
                 <h3>Current Images</h3>
                 <div className="image-grid">
-                  {existingImages.map((img, index) => (
+                  {imageUrls.map((img, index) => (
                     <div key={index} className="image-preview">
-                      <img src={`${process.env.REACT_APP_API_URL || 'https://ecm.bonto.run'}${img}`} alt={`Product ${index + 1}`} />
-                      <button
-                        type="button"
-                        className="remove-image-btn"
-                        onClick={() => handleRemoveExistingImage(img)}
-                      >
-                        ×
-                      </button>
+                      <img src={resolveImageUrl(img)} alt={`Product ${index + 1}`} />
                     </div>
                   ))}
                 </div>
@@ -279,39 +248,24 @@ const ProductEditPage = () => {
             )}
 
             <div className="form-group">
-              <label htmlFor="images">Add New Images</label>
-              <input
-                type="file"
-                id="images"
-                name="images"
-                onChange={handleImageChange}
-                accept="image/*"
-                multiple
+              <label htmlFor="imageLinks">Image Links</label>
+              <textarea
+                id="imageLinks"
+                name="imageLinks"
+                value={formData.imageLinks}
+                onChange={handleInputChange}
+                rows="4"
+                placeholder="https://example.com/image-1.jpg&#10;https://example.com/image-2.jpg"
               />
-              <small className="form-hint">
-                You can upload up to 5 images total. Current: {existingImages.length + images.length - imagesToRemove.length}/5
-              </small>
+              <small className="form-hint">Paste up to 5 image URLs, one per line or separated by commas.</small>
             </div>
-
-            {images.length > 0 && (
-              <div className="new-images-preview">
-                <h3>New Images to Upload</h3>
-                <div className="image-grid">
-                  {images.map((img, index) => (
-                    <div key={index} className="image-preview">
-                      <img src={URL.createObjectURL(img)} alt={`New ${index + 1}`} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           <div className="form-actions">
             <button 
               type="button" 
               className="btn-secondary" 
-              onClick={() => navigate('/seller/dashboard')}
+              onClick={() => navigate('/admin/dashboard')}
               disabled={submitting}
             >
               Cancel

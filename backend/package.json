@@ -7,6 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "seed": "node utils/seeder.js",
+    "ensure-admin": "node utils/ensureAdmin.js",
     "ai:export-data": "node ai/scripts/exportAiDataset.js",
     "ai:build-embeddings": "node ai/scripts/buildProductEmbeddings.js",
     "ai:eval:recommendations": "node ai/scripts/evaluateRecommendations.js",

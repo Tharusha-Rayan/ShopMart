@@ -48,7 +48,6 @@ app.use('/api/returns', require('./routes/returnRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
-app.use('/api/seller', require('./routes/sellerRoutes'));
 app.use('/api/ai', require('./ai/routes/aiEventRoutes'));
 
 // Health check
@@ -63,7 +62,7 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   logger.info(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });
 
 // Handle unhandled promise rejections

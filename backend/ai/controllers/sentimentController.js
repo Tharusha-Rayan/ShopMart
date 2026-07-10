@@ -28,7 +28,7 @@ exports.recomputeSentiment = async (req, res, next) => {
 
 exports.getSummary = async (req, res, next) => {
   try {
-    const { productId, sellerId } = req.query;
+    const { productId } = req.query;
 
     if (productId && !mongoose.Types.ObjectId.isValid(productId)) {
       return res.status(400).json({
@@ -37,21 +37,7 @@ exports.getSummary = async (req, res, next) => {
       });
     }
 
-    if (sellerId && !mongoose.Types.ObjectId.isValid(sellerId)) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid sellerId'
-      });
-    }
-
-    let effectiveSellerId = sellerId || null;
-
-    if (req.user?.role === 'seller') {
-      effectiveSellerId = req.user.id;
-    }
-
     const summary = await getSentimentSummary({
-      sellerId: effectiveSellerId,
       productId
     });
 

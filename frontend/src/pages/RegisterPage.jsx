@@ -14,8 +14,7 @@ const RegisterPage = () => {
     name: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    role: 'buyer'
+    confirmPassword: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -120,32 +119,6 @@ const RegisterPage = () => {
               required
               icon={Lock}
             />
-
-            <div className="input-group">
-              <label className="input-label">I want to:</label>
-              <div className="role-selection">
-                <label className="role-option">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="buyer"
-                    checked={formData.role === 'buyer'}
-                    onChange={handleChange}
-                  />
-                  <span>Buy Products</span>
-                </label>
-                <label className="role-option">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="seller"
-                    checked={formData.role === 'seller'}
-                    onChange={handleChange}
-                  />
-                  <span>Sell Products</span>
-                </label>
-              </div>
-            </div>
 
             <Button
               type="submit"

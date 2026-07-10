@@ -76,7 +76,7 @@
 //           {user && (
 //             <Link
 //               to={
-//                 user.role === 'seller' ? '/seller/dashboard' :
+//                 user.role === 'admin' ? '/admin/dashboard' :
 //                   user.role === 'admin' ? '/admin/dashboard' :
 //                     '/buyer/dashboard'
 //               }
@@ -321,9 +321,7 @@ const Navbar = () => {
           {user && (
             <Link
               to={
-                user.role === 'seller'
-                  ? '/seller/dashboard'
-                  : user.role === 'admin'
+                user.role === 'admin'
                     ? '/admin/dashboard'
                     : '/buyer/dashboard'
               }
@@ -393,23 +391,31 @@ const Navbar = () => {
       {/* Mobile Sidebar Menu */}
       {mobileMenuOpen && (
         <div className="navbar-mobile-menu" ref={mobileMenuRef}>
-          <Link to="/products" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
-            All Products
-          </Link>
-          <Link to="/wishlist" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
-            Wishlist {getWishlistCount() > 0 && `(${getWishlistCount()})`}
-          </Link>
-          <Link to="/cart" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
-            Cart {getCartCount() > 0 && `(${getCartCount()})`}
-          </Link>
-          <Link to="/notifications" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
-            Notifications {unreadCount > 0 && `(${unreadCount})`}
-          </Link>
-          {user ? (
-            <>
+          {user && (
+            <div className="mobile-menu-top">
               <div className="mobile-avatar">
                 <FiUser /> {user.name.split(' ')[0]}
               </div>
+            </div>
+          )}
+
+          <div className="mobile-menu-main">
+            <Link to="/products" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
+              All Products
+            </Link>
+            <Link to="/wishlist" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
+              Wishlist {getWishlistCount() > 0 && `(${getWishlistCount()})`}
+            </Link>
+            <Link to="/cart" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
+              Cart {getCartCount() > 0 && `(${getCartCount()})`}
+            </Link>
+            <Link to="/notifications" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
+              Notifications {unreadCount > 0 && `(${unreadCount})`}
+            </Link>
+          </div>
+
+          {user ? (
+            <div className="mobile-menu-auth">
               <Link to="/profile" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
                 Profile
               </Link>
@@ -421,20 +427,20 @@ const Navbar = () => {
                   handleLogout();
                   setMobileMenuOpen(false);
                 }}
-                className="mobile-menu-item logout-btn"
+                className="mobile-menu-item logout-btn mobile-logout-bottom"
               >
                 Logout
               </button>
-            </>
+            </div>
           ) : (
-            <>
+            <div className="mobile-menu-auth">
               <Link to="/login" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
                 Login
               </Link>
               <Link to="/register" className="mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>
                 Register
               </Link>
-            </>
+            </div>
           )}
         </div>
       )}

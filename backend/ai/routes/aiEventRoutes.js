@@ -15,7 +15,7 @@ const router = express.Router();
 router.post('/events', optionalAuth, logEvent);
 router.get('/recommendations', optionalAuth, getRecommendations);
 router.post('/sentiment/recompute', protect, authorize('admin'), recomputeSentiment);
-router.get('/sentiment/summary', protect, authorize('seller', 'admin'), getSummary);
+router.get('/sentiment/summary', protect, authorize('admin'), getSummary);
 router.get('/search/semantic', optionalAuth, searchSemantic);
 router.post('/chat', optionalAuth, chat);
 router.get('/chat/health', chatHealth);

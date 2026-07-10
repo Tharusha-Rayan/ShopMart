@@ -7,6 +7,7 @@ import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
 import { Package, AlertCircle } from 'lucide-react';
+import { resolveImageUrl } from '../utils/imageUrl';
 import './RequestReturnPage.css';
 
 const RequestReturnPage = () => {
@@ -187,7 +188,11 @@ const RequestReturnPage = () => {
                             onChange={() => handleItemToggle(productId)}
                           />
                           <div className="item-content">
-                            <img src={item.image || '/placeholder.jpg'} alt={item.name} />
+                            {resolveImageUrl(item.image) ? (
+                              <img src={resolveImageUrl(item.image)} alt={item.name} />
+                            ) : (
+                              <div className="return-item-image-empty">No image</div>
+                            )}
                             <div className="item-details">
                               <h4>{item.name}</h4>
                               <p>Quantity: {item.quantity}</p>

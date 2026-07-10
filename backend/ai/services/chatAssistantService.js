@@ -247,12 +247,12 @@ const getProductSearchReply = async ({ message }) => {
 };
 
 const getReturnPolicyReply = () => ({
-  text: 'You can request a return from your order details page. Add a reason and proof image. Sellers review requests and refunds are processed after item receipt.',
+  text: 'You can request a return from your order details page. Add a reason and proof image. Our store team reviews requests and refunds are processed after item receipt.',
   suggestions: ['Open My Orders', 'How long does approval take?']
 });
 
 const getShippingInfoReply = () => ({
-  text: 'Delivery time depends on seller location and courier. Track live status in Orders: pending, processing, shipped, and delivered.',
+  text: 'Delivery time depends on courier and destination. Track live status in Orders: pending, processing, shipped, and delivered.',
   suggestions: ['Track my latest order', 'What is out for delivery?']
 });
 

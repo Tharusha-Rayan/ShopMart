@@ -12,119 +12,106 @@ const categories = [
   { name: 'Home Essentials', description: 'Home utility and essentials' }
 ];
 
-const sellerOneProducts = [
+const products = [
   {
     name: 'AeroSound Wireless Earbuds',
     description: 'Compact wireless earbuds with clear audio and long battery backup.',
     price: 59,
     stock: 120,
-    tags: ['audio', 'wireless', 'earbuds']
+    tags: ['audio', 'wireless', 'earbuds'],
+    category: 'Electronics'
   },
   {
     name: 'VoltCharge 65W USB-C Adapter',
     description: 'Fast charger compatible with laptops, tablets, and smartphones.',
     price: 39,
     stock: 90,
-    tags: ['charger', 'usb-c', 'accessories']
+    tags: ['charger', 'usb-c', 'accessories'],
+    category: 'Electronics'
   },
   {
     name: 'Nimbus Smart LED Bulb Pack',
     description: 'Energy-efficient smart bulbs with app and voice control support.',
     price: 29,
     stock: 150,
-    tags: ['smart-home', 'lighting', 'electronics']
+    tags: ['smart-home', 'lighting', 'electronics'],
+    category: 'Electronics'
   },
   {
     name: 'FlexStand Laptop Riser',
     description: 'Ergonomic aluminum stand designed for better posture and airflow.',
     price: 49,
     stock: 80,
-    tags: ['laptop', 'office', 'ergonomic']
+    tags: ['laptop', 'office', 'ergonomic'],
+    category: 'Home Essentials'
   },
   {
     name: 'SnapGrip Magnetic Phone Mount',
     description: 'Secure magnetic mount for desks, dashboards, and bedsides.',
     price: 24,
     stock: 110,
-    tags: ['mobile', 'mount', 'accessories']
-  }
-];
-
-const sellerTwoProducts = [
+    tags: ['mobile', 'mount', 'accessories'],
+    category: 'Home Essentials'
+  },
   {
     name: 'UrbanWeave Casual Shirt',
     description: 'Breathable everyday shirt with a modern tailored fit.',
     price: 35,
     stock: 130,
-    tags: ['fashion', 'shirt', 'casual']
+    tags: ['fashion', 'shirt', 'casual'],
+    category: 'Fashion'
   },
   {
     name: 'StrideMax Running Shoes',
     description: 'Lightweight running shoes with cushioned sole for daily training.',
     price: 72,
     stock: 95,
-    tags: ['shoes', 'sports', 'running']
+    tags: ['shoes', 'sports', 'running'],
+    category: 'Fashion'
   },
   {
     name: 'ComfyNest Throw Blanket',
     description: 'Soft microfiber blanket suitable for couch, bed, and travel.',
     price: 28,
     stock: 140,
-    tags: ['home', 'blanket', 'comfort']
+    tags: ['home', 'blanket', 'comfort'],
+    category: 'Home Essentials'
   },
   {
     name: 'PureSip Stainless Water Bottle',
     description: 'Insulated bottle that keeps drinks cold or hot for hours.',
     price: 22,
     stock: 160,
-    tags: ['bottle', 'lifestyle', 'outdoor']
+    tags: ['bottle', 'lifestyle', 'outdoor'],
+    category: 'Home Essentials'
   },
   {
     name: 'KitchenPro Knife Set',
     description: 'Durable 5-piece stainless steel knife set for daily cooking.',
     price: 64,
     stock: 70,
-    tags: ['kitchen', 'home', 'cooking']
+    tags: ['kitchen', 'home', 'cooking'],
+    category: 'Home Essentials'
   }
 ];
 
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('✅ MongoDB Connected');
+    console.log('MongoDB connected');
 
-    // Clear existing data
-    console.log('🗑️  Clearing existing data...');
     await User.deleteMany();
     await Category.deleteMany();
     await Product.deleteMany();
-    console.log('✅ Cleared existing data');
+    console.log('Cleared existing data');
 
-    // Create users requested for demo environment
     const admin = await User.create({
-      name: 'Admin One',
+      name: 'Store Admin',
       email: 'admin1@shophub.com',
       password: 'Admin@123',
       role: 'admin',
       isEmailVerified: true
     });
-
-    const sellers = await User.insertMany([
-      {
-        name: 'Seller One',
-        email: 'seller1@shophub.com',
-        password: 'Seller@123',
-        role: 'seller',
-        isEmailVerified: true
-      },
-      {
-        name: 'Seller Two',
-        email: 'seller2@shophub.com',
-        password: 'Seller@123',
-        role: 'seller',
-        isEmailVerified: true
-      }
-    ]);
 
     const buyers = await User.insertMany([
       {
@@ -143,77 +130,42 @@ const seedDatabase = async () => {
       }
     ]);
 
-    console.log('✅ 1 Admin, 2 Sellers, 2 Buyers created');
-
-    // Create categories
     const createdCategories = await Category.insertMany(categories);
-    console.log('✅ Categories created');
+    const categoryMap = createdCategories.reduce((map, category) => {
+      map[category.name] = category._id;
+      return map;
+    }, {});
 
-    const electronicsCategory = createdCategories.find((c) => c.name === 'Electronics');
-    const fashionCategory = createdCategories.find((c) => c.name === 'Fashion');
-    const homeCategory = createdCategories.find((c) => c.name === 'Home Essentials');
-
-    const buildProductDoc = (product, sellerId, categoryId, indexOffset) => ({
+    const productDocs = products.map((product, index) => ({
       name: product.name,
       description: product.description,
       price: product.price,
       originalPrice: null,
       discount: 0,
-      category: categoryId,
-      images: [{ url: '/uploads/products/placeholder.webp', public_id: `seed-product-${indexOffset}` }],
+      category: categoryMap[product.category],
+      images: [],
       stock: product.stock,
-      seller: sellerId,
+      seller: admin._id,
       tags: product.tags,
       rating: 0,
       numReviews: 0,
       status: 'active',
       sold: 0
-    });
+    }));
 
-    const sellerOneDocs = sellerOneProducts.map((p, idx) =>
-      buildProductDoc(
-        p,
-        sellers[0]._id,
-        idx < 3 ? electronicsCategory._id : homeCategory._id,
-        idx + 1
-      )
-    );
+    await Product.insertMany(productDocs);
 
-    const sellerTwoDocs = sellerTwoProducts.map((p, idx) =>
-      buildProductDoc(
-        p,
-        sellers[1]._id,
-        idx < 2 ? fashionCategory._id : homeCategory._id,
-        idx + 6
-      )
-    );
-
-    await Product.insertMany([...sellerOneDocs, ...sellerTwoDocs]);
-    console.log('✅ 10 Products created (5 per seller)');
-
-    console.log('\n🎉 SmartShop Database seeded successfully!');
-    console.log('\n📧 Login Credentials:');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('👨‍💼 Admin:   admin1@shophub.com / Admin@123');
-    console.log('🏪 Seller 1: seller1@shophub.com / Seller@123');
-    console.log('🏪 Seller 2: seller2@shophub.com / Seller@123');
-    console.log('🛒 Buyer 1:  buyer1@shophub.com / Buyer@123');
-    console.log('🛒 Buyer 2:  buyer2@shophub.com / Buyer@123');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('\n📊 Seeded Data Summary:');
-    console.log('  • 1 Admin account');
-    console.log('  • 2 Seller accounts');
-    console.log('  • 2 Buyer accounts');
-    console.log('  • 3 Product categories');
-    console.log('  • 10 Products total (5 for each seller)');
-    console.log(`  • Seller 1 products owner: ${sellers[0].email}`);
-    console.log(`  • Seller 2 products owner: ${sellers[1].email}`);
-    console.log(`  • Seeded by: ${admin.email}`);
-    console.log('\n✨ Ready to test!\n');
+    console.log('Simple edition seed complete');
+    console.log('Admin: admin1@shophub.com / Admin@123');
+    console.log('Buyer 1: buyer1@shophub.com / Buyer@123');
+    console.log('Buyer 2: buyer2@shophub.com / Buyer@123');
+    console.log(`Categories: ${createdCategories.length}`);
+    console.log(`Products: ${productDocs.length}`);
+    console.log(`Buyers: ${buyers.length}`);
 
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('Seed error:', error);
     process.exit(1);
   }
 };

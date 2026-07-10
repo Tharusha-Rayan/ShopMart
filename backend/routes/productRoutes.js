@@ -9,20 +9,19 @@ const {
   getFeaturedProducts
 } = require('../controllers/productController');
 const { protect, authorize } = require('../middleware/auth');
-const upload = require('../middleware/upload');
 
 router.route('/')
   .get(getProducts)
-  .post(protect, authorize('seller', 'admin'), upload.array('images', 10), createProduct);
+  .post(protect, authorize('admin'), createProduct);
 
 router.get('/featured', getFeaturedProducts);
 
 router.route('/:id')
   .get(getProduct)
-  .put(protect, authorize('seller', 'admin'), upload.array('images', 10), updateProduct)
-  .delete(protect, authorize('seller', 'admin'), deleteProduct);
+  .put(protect, authorize('admin'), updateProduct)
+  .delete(protect, authorize('admin'), deleteProduct);
 
-router.put('/:id/status', protect, authorize('seller', 'admin'), async (req, res, next) => {
+router.put('/:id/status', protect, authorize('admin'), async (req, res, next) => {
   try {
     const Product = require('../models/Product');
     const product = await Product.findByIdAndUpdate(

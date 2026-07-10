@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import { Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { resolveImageUrl } from '../utils/imageUrl';
 import './CartPage.css';
 
 const CartPage = () => {
@@ -102,7 +103,11 @@ const CartPage = () => {
                   />
                 </div>
                 <div className="item-image">
-                  <img src={product.images?.[0]?.url || '/placeholder.jpg'} alt={product.name} />
+                  {resolveImageUrl(product.images?.[0]?.url) ? (
+                    <img src={resolveImageUrl(product.images?.[0]?.url)} alt={product.name} />
+                  ) : (
+                    <div className="item-image-empty">No image</div>
+                  )}
                 </div>
                 <div className="item-details">
                   <Link to={`/product/${productId}`}>

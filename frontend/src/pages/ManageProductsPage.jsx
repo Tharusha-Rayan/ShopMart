@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { productAPI } from '../services/api';
-import { useAuth } from '../context/AuthContext';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import { toast } from 'react-toastify';
 import { Edit, Trash2, Eye } from 'lucide-react';
-import './ManageProductsPage.css';
+import { resolveImageUrl } from '../utils/imageUrl';
+import './ManageProductsPage.css'
 
 const ManageProductsPage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
@@ -77,6 +76,9 @@ const ManageProductsPage = () => {
         <div className="page-header">
           <h1>Manage Products</h1>
           <p>Control product status and discounts</p>
+          <Button variant="primary" onClick={() => navigate('/admin/products/new')}>
+            Add Product
+          </Button>
         </div>
 
         <div className="filters">
@@ -117,7 +119,7 @@ const ManageProductsPage = () => {
                     <th>Discount</th>
                     <th>Stock</th>
                     <th>Status</th>
-                    {user?.role !== 'seller' && <th>Seller</th>}
+                    <th>Owner</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -125,15 +127,15 @@ const ManageProductsPage = () => {
                   {filteredProducts.map(product => (
                     <tr key={product._id}>
                       <td className="product-cell">
-                        <img 
-                          src={product.images?.[0]?.url || `https://source.unsplash.com/100x100/?${encodeURIComponent(product.name?.split(' ')[0] || 'product')}`} 
-                          alt={product.name} 
-                          className="product-thumb"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop';
-                          }}
-                        />
+                        {resolveImageUrl(product.images?.[0]?.url) ? (
+                          <img 
+                            src={resolveImageUrl(product.images?.[0]?.url)} 
+                            alt={product.name} 
+                            className="product-thumb"
+                          />
+                        ) : (
+                          <div className="product-thumb-empty">No image</div>
+                        )}
                         <span>{product.name}</span>
                       </td>
                       <td>${product.price?.toFixed(2)}</td>
@@ -164,7 +166,7 @@ const ManageProductsPage = () => {
                           <option value="banned">Banned</option>
                         </select>
                       </td>
-                      {user?.role !== 'seller' && <td>{product.seller?.name || 'N/A'}</td>}
+                      <td>{product.seller?.name || 'N/A'}</td>
                       <td className="action-cell">
                         <button 
                           className="icon-btn view" 

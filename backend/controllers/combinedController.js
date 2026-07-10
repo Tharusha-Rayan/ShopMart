@@ -77,9 +77,8 @@ exports.createOrder = async (req, res, next) => {
       });
     }
 
-    // Calculate admin profit (20% commission from subtotal)
-    const adminCommissionRate = 0.20; // 20%
-    req.body.adminProfit = (req.body.subtotal || 0) * adminCommissionRate;
+    // Simple edition: no commission model. Admin profit is not applied.
+    req.body.adminProfit = 0;
 
     // Create the order
     const order = await Order.create(req.body);
@@ -125,7 +124,7 @@ exports.createOrder = async (req, res, next) => {
           type: 'order_placed',
           title: 'New Order Received',
           message: `You have received a new order from ${order.user.name}. Items: ${itemNames}`,
-          link: `/seller/orders`,
+          link: `/admin/dashboard`,
           relatedOrder: order._id
         });
         
@@ -186,20 +185,6 @@ exports.updateOrderStatus = async (req, res, next) => {
       return res.status(404).json({ success: false, error: 'Order not found' });
     }
     
-    // If user is a seller, check if they own any products in this order
-    if (req.user.role === 'seller') {
-      const sellerOwnsProduct = order.items.some(item => 
-        item.product.seller && item.product.seller.toString() === req.user.id
-      );
-      
-      if (!sellerOwnsProduct) {
-        return res.status(403).json({ 
-          success: false, 
-          error: 'You are not authorized to update this order' 
-        });
-      }
-    }
-    
     // Update order status
     order.status = req.body.status;
     await order.save();
@@ -229,12 +214,12 @@ exports.updateOrderStatus = async (req, res, next) => {
         });
         
         // Send message to buyer
-        const sellerId = req.user.id; // Current user (seller/admin) updating the status
-        const conversationId = [order.user._id.toString(), sellerId].sort().join('-');
+        const actorUserId = req.user.id;
+        const conversationId = [order.user._id.toString(), actorUserId].sort().join('-');
         
         await Message.create({
           conversationId,
-          sender: sellerId,
+          sender: actorUserId,
           receiver: order.user._id,
           content: `Order Update: Your order #${order._id.toString().slice(-8)} status has been updated to "${req.body.status}". ${statusConfig.message}`,
           isSystemMessage: true
@@ -516,7 +501,16 @@ exports.updateUser = async (req, res, next) => {
 
 exports.banUser = async (req, res, next) => {
   try {
+    if (req.params.id === req.user.id) {
+      return res.status(400).json({ success: false, error: 'You cannot ban your own account' });
+    }
+
     const user = await User.findByIdAndUpdate(req.params.id, { isBanned: true, banReason: req.body.reason }, { new: true });
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     next(error);
@@ -525,8 +519,10 @@ exports.banUser = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(200).json({ success: true });
+    res.status(403).json({
+      success: false,
+      error: 'User deletion is disabled. Use ban instead.'
+    });
   } catch (error) {
     next(error);
   }

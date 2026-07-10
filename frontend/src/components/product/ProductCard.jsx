@@ -4,6 +4,7 @@ import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { resolveImageUrl } from '../../utils/imageUrl';
 import './ProductCard.css';
 
 const ProductCard = ({ product, onProductClick }) => {
@@ -36,6 +37,11 @@ const ProductCard = ({ product, onProductClick }) => {
 
   const discount = product.discount || 0;
   const inWishlist = isInWishlist(product._id);
+  const imageUrl = resolveImageUrl(
+    product.images?.[0]?.url || 
+    product.images?.[0] || 
+    (typeof product.images === 'string' ? product.images : null)
+  );
   
   // Clean product name by removing seller info in parentheses or after dash
   const cleanProductName = product.name
@@ -57,21 +63,16 @@ const ProductCard = ({ product, onProductClick }) => {
       </button>
 
       <div className="product-image-wrapper">
-        <img 
-          src={
-            product.images?.[0]?.url || 
-            product.images?.[0] || 
-            (typeof product.images === 'string' ? product.images : null) ||
-            `https://source.unsplash.com/400x400/?${encodeURIComponent(product.category?.name || 'product')},${encodeURIComponent(product.name?.split(' ')[0] || 'shopping')}`
-          } 
-          alt={product.name || 'Product'}
-          className="product-image"
-          loading="lazy"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop';
-          }}
-        />
+        {imageUrl ? (
+          <img 
+            src={imageUrl} 
+            alt={product.name || 'Product'}
+            className="product-image"
+            loading="lazy"
+          />
+        ) : (
+          <div className="product-image-empty">No image available</div>
+        )}
       </div>
 
       <div className="product-info">

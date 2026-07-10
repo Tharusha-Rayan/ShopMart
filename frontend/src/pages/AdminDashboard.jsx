@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
 import { toast } from 'react-toastify';
-import { adminAPI, productAPI, orderAPI } from '../services/api';
-import { Users, ShoppingBag, DollarSign, TrendingUp, Package, AlertCircle, Settings, BarChart3, Trash2, UserMinus, Eye, RefreshCw } from 'lucide-react';
+import { adminAPI, productAPI, orderAPI, categoryAPI } from '../services/api';
+import { Users, ShoppingBag, DollarSign, Package, AlertCircle, Settings, BarChart3, UserMinus, Eye, RefreshCw, PlusCircle, TrendingUp, Edit } from 'lucide-react';
+import { resolveImageUrl } from '../utils/imageUrl';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const { user: currentUser } = useAuth();
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalProducts: 0,
     totalOrders: 0,
     totalRevenue: 0,
-    totalProfit: 0,
     pendingOrders: 0,
     activeUsers: 0,
     newUsersToday: 0,
-    revenueGrowth: 0,
-    totalSellers: 0,
-    activeSellers: 0,
-    completedOrders: 0,
-    avgOrderValue: 0
+    completedOrders: 0
   });
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
+  const [categoriesCount, setCategoriesCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('overview');
   const [selectedUser, setSelectedUser] = useState(null);
@@ -42,56 +41,45 @@ const AdminDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const [usersRes, productsRes, ordersRes] = await Promise.all([
+      const [usersRes, productsRes, ordersRes, categoriesRes] = await Promise.all([
         adminAPI.getAllUsers().catch(() => ({ data: { data: [] } })),
         productAPI.getAll().catch(() => ({ data: { data: [] } })),
-        orderAPI.getAll().catch(() => ({ data: { data: [] } }))
+        orderAPI.getAll().catch(() => ({ data: { data: [] } })),
+        categoryAPI.getAll().catch(() => ({ data: { data: [] } }))
       ]);
 
       const usersData = usersRes.data.data || [];
       const productsData = productsRes.data.data || [];
       const ordersData = ordersRes.data.data || [];
+      const categoriesData = categoriesRes.data.data || [];
 
       setUsers(usersData.slice(0, 10));
       setProducts(productsData.slice(0, 10));
       setRecentOrders(ordersData.slice(0, 10));
+      setCategoriesCount(categoriesData.length);
 
       // Filter data for last 30 days
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
       const last30DaysOrders = ordersData.filter(order => new Date(order.createdAt) >= thirtyDaysAgo);
 
-      // Calculate total revenue (all sellers + admin revenue from last 30 days)
+      // Calculate total revenue from recent orders
       const totalRevenue = last30DaysOrders.reduce((sum, order) => sum + (order.total || order.totalAmount || 0), 0);
-      
-      // Calculate admin profit (20% commission from last 30 days orders)
-      const totalProfit = last30DaysOrders.reduce((sum, order) => {
-        const orderSubtotal = order.subtotal || (order.total || order.totalAmount || 0) * 0.85;
-        return sum + (orderSubtotal * 0.20);
-      }, 0);
       
       const pendingOrders = ordersData.filter(o => o.status === 'pending').length;
       const completedOrders = ordersData.filter(o => o.status === 'delivered').length;
       const today = new Date().setHours(0, 0, 0, 0);
       const newUsersToday = usersData.filter(u => new Date(u.createdAt).setHours(0, 0, 0, 0) === today).length;
-      const totalSellers = usersData.filter(u => u.role === 'seller').length;
-      const activeSellers = usersData.filter(u => u.role === 'seller' && !u.isBanned).length;
-      const avgOrderValue = last30DaysOrders.length > 0 ? totalRevenue / last30DaysOrders.length : 0;
 
       setStats({
         totalUsers: usersData.length,
         totalProducts: productsData.length,
         totalOrders: ordersData.length,
         totalRevenue,
-        totalProfit,
         pendingOrders,
         completedOrders,
         activeUsers: usersData.filter(u => !u.isBanned).length,
-        newUsersToday,
-        revenueGrowth: 23.5,
-        totalSellers,
-        activeSellers,
-        avgOrderValue
+        newUsersToday
       });
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
@@ -111,17 +99,6 @@ const AdminDashboard = () => {
       fetchDashboardData();
     } catch (error) {
       toast.error('Failed to ban user: ' + (error.response?.data?.error || error.message));
-    }
-  };
-
-  const handleDeleteUser = async (userId) => {
-    if (!window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
-    try {
-      await adminAPI.deleteUser(userId);
-      toast.success('User deleted successfully');
-      fetchDashboardData();
-    } catch (error) {
-      toast.error('Failed to delete user: ' + (error.response?.data?.error || error.message));
     }
   };
 
@@ -146,7 +123,7 @@ const AdminDashboard = () => {
             <h1>Admin Control Panel</h1>
             <p className="subtitle">Comprehensive system management and analytics</p>
           </div>
-          <Button onClick={() => fetchDashboardData()} variant="secondary">
+          <Button onClick={() => fetchDashboardData()} variant="primary" className="refresh-data-btn">
             <RefreshCw /> Refresh Data
           </Button>
         </div>
@@ -160,17 +137,6 @@ const AdminDashboard = () => {
             <div className="stat-info">
               <h3>${(stats.totalRevenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
               <p>Total Store Revenue</p>
-              <span className="stat-detail">Last 30 days</span>
-            </div>
-          </Card>
-
-          <Card className="stat-card revenue-card">
-            <div className="stat-icon revenue">
-              <TrendingUp size={48} />
-            </div>
-            <div className="stat-info">
-              <h3>${(stats.totalProfit || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
-              <p>Admin Commission (20%)</p>
               <span className="stat-detail">Last 30 days</span>
             </div>
           </Card>
@@ -227,22 +193,12 @@ const AdminDashboard = () => {
               <Users size={32} />
             </div>
             <div className="stat-info">
-              <h3>{stats.activeSellers}/{stats.totalSellers}</h3>
-              <p>Active Sellers</p>
-              <span className="stat-detail">Seller accounts</span>
+              <h3>{stats.activeUsers}</h3>
+              <p>Active Accounts</p>
+              <span className="stat-detail">Not banned</span>
             </div>
           </Card>
 
-          <Card className="stat-card">
-            <div className="stat-icon orders">
-              <DollarSign size={32} />
-            </div>
-            <div className="stat-info">
-              <h3>${stats.avgOrderValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
-              <p>Avg Order Value</p>
-              <span className="stat-detail">Per transaction</span>
-            </div>
-          </Card>
         </div>
 
         {/* View Tabs */}
@@ -287,7 +243,7 @@ const AdminDashboard = () => {
               <div className="management-grid">
                 <button className="mgmt-btn" onClick={() => setActiveView('users')}>
                   <Users size={24} />
-                  <span>Manage Users</span>
+                  <span>View & Ban Users</span>
                   <small>{stats.totalUsers} users</small>
                 </button>
                 <button className="mgmt-btn" onClick={() => setActiveView('products')}>
@@ -303,7 +259,7 @@ const AdminDashboard = () => {
                 <button className="mgmt-btn" onClick={() => navigate('/admin/categories')}>
                   <AlertCircle size={24} />
                   <span>Manage Categories</span>
-                  <small>8 categories</small>
+                  <small>{categoriesCount} categories</small>
                 </button>
               </div>
             </Card>
@@ -347,7 +303,7 @@ const AdminDashboard = () => {
           <Card>
             <div className="section-header">
               <h2><Users /> User Management</h2>
-              <p className="section-subtitle">Manage all registered users</p>
+              <p className="section-subtitle">View users and ban accounts (deletion disabled)</p>
             </div>
             {users.length > 0 ? (
               <div className="table-responsive">
@@ -381,14 +337,11 @@ const AdminDashboard = () => {
                           <button className="icon-btn view" onClick={() => { setSelectedUser(user); setShowUserModal(true); }} title="View Details">
                             <Eye />
                           </button>
-                          {!user.isBanned && (
+                          {!user.isBanned && user._id !== currentUser?._id && (
                             <button className="icon-btn ban" onClick={() => { setSelectedUser(user); setShowBanModal(true); }} title="Ban User">
                               <UserMinus />
                             </button>
                           )}
-                          <button className="icon-btn delete" onClick={() => handleDeleteUser(user._id)} title="Delete User">
-                            <Trash2 />
-                          </button>
                         </td>
                       </tr>
                     ))}
@@ -405,8 +358,13 @@ const AdminDashboard = () => {
         {activeView === 'products' && (
           <Card>
             <div className="section-header">
-              <h2><ShoppingBag /> Product Management</h2>
-              <p className="section-subtitle">Monitor and manage all products</p>
+              <div className="section-heading">
+                <h2><ShoppingBag /> Product Management</h2>
+                <p className="section-subtitle">Monitor and manage all products</p>
+              </div>
+              <Button variant="primary" onClick={() => navigate('/admin/products/new')}>
+                <PlusCircle size={16} /> Add Product
+              </Button>
             </div>
             {products.length > 0 ? (
               <div className="table-responsive">
@@ -426,13 +384,9 @@ const AdminDashboard = () => {
                       <tr key={product._id}>
                         <td className="product-cell">
                           <img 
-                            src={product.images?.[0]?.url || `https://source.unsplash.com/100x100/?${encodeURIComponent(product.name?.split(' ')[0] || 'product')}`} 
+                            src={resolveImageUrl(product.images?.[0]?.url)} 
                             alt={product.name} 
                             className="product-thumb"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop';
-                            }}
                           />
                           <span>{product.name}</span>
                         </td>
@@ -447,6 +401,9 @@ const AdminDashboard = () => {
                         <td className="action-cell">
                           <button className="icon-btn view" onClick={() => navigate(`/product/${product._id}`)} title="View Product">
                             <Eye />
+                          </button>
+                          <button className="icon-btn edit" onClick={() => navigate(`/product/${product._id}/edit`)} title="Edit Product">
+                            <Edit />
                           </button>
                           <button className="icon-btn ban" onClick={() => handleBanProduct(product._id)} title="Ban Product">
                             <UserMinus />
@@ -513,8 +470,13 @@ const AdminDashboard = () => {
         {activeView === 'manage' && (
           <Card>
             <div className="section-header">
-              <h2><Settings /> Manage All Products</h2>
-              <p className="subtitle">Comprehensive product management across all sellers</p>
+              <div className="section-heading">
+                <h2><Settings /> Manage All Products</h2>
+                <p className="subtitle">Comprehensive product management for the catalog</p>
+              </div>
+              <Button variant="primary" onClick={() => navigate('/admin/products/new')}>
+                <PlusCircle size={16} /> Add Product
+              </Button>
             </div>
             <div className="table-responsive">
               {products.length > 0 ? (
@@ -527,7 +489,6 @@ const AdminDashboard = () => {
                       <th>Stock</th>
                       <th>Status</th>
                       <th>Sales</th>
-                      <th>Commission (20%)</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -538,7 +499,7 @@ const AdminDashboard = () => {
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                             {product.images?.[0]?.url && (
                               <img 
-                                src={product.images[0].url} 
+                                src={resolveImageUrl(product.images[0].url)} 
                                 alt={product.name} 
                                 style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '6px' }}
                               />
@@ -555,10 +516,12 @@ const AdminDashboard = () => {
                         </td>
                         <td><span className={`status-badge ${product.status}`}>{product.status}</span></td>
                         <td>{product.sold || 0} sold</td>
-                        <td className="amount">${((product.price || 0) * 0.20).toFixed(2)}</td>
                         <td className="action-cell">
                           <button className="icon-btn view" onClick={() => navigate(`/product/${product._id}`)} title="View Product">
                             <Eye />
+                          </button>
+                          <button className="icon-btn edit" onClick={() => navigate(`/product/${product._id}/edit`)} title="Edit Product">
+                            <Edit />
                           </button>
                         </td>
                       </tr>

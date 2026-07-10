@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { orderAPI } from '../services/api';
 import Card from '../components/common/Card';
 import { FiPackage, FiTruck, FiCheckCircle } from 'react-icons/fi';
+import { resolveImageUrl } from '../utils/imageUrl';
 import './OrdersPage.css';
 
 const OrdersPage = () => {
@@ -78,10 +79,11 @@ const OrdersPage = () => {
                 <div className="order-items">
                   {order.items && order.items.map((item, idx) => (
                     <div key={idx} className="order-item">
-                      <img 
-                        src={item.image || '/placeholder.jpg'} 
-                        alt={item.name || 'Product'} 
-                      />
+                      {resolveImageUrl(item.image) ? (
+                        <img src={resolveImageUrl(item.image)} alt={item.name || 'Product'} />
+                      ) : (
+                        <div className="order-item-image-empty">No image</div>
+                      )}
                       <div className="order-item-info">
                         <p>{item.name || 'Product'}</p>
                         <span>Qty: {item.quantity}</span>

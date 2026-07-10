@@ -18,6 +18,7 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const ProductListingPage = lazy(() => import('./pages/ProductListingPage'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
 const ProductEditPage = lazy(() => import('./pages/ProductEditPage'));
+const ProductCreatePage = lazy(() => import('./pages/ProductCreatePage'));
 const CartPage = lazy(() => import('./pages/CartPage'));
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
@@ -25,12 +26,12 @@ const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const OrdersPage = lazy(() => import('./pages/OrdersPage'));
 const WishlistPage = lazy(() => import('./pages/WishlistPage'));
-const SellerDashboard = lazy(() => import('./pages/SellerDashboard'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const BuyerDashboard = lazy(() => import('./pages/BuyerDashboard'));
 const NotificationCenter = lazy(() => import('./pages/NotificationCenter'));
 const MessagesPage = lazy(() => import('./pages/MessagesPage'));
 const ManageProductsPage = lazy(() => import('./pages/ManageProductsPage'));
+const CategoryManagementPage = lazy(() => import('./pages/CategoryManagementPage'));
 const TrackOrderPage = lazy(() => import('./pages/TrackOrderPage'));
 const HelpPage = lazy(() => import('./pages/HelpPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
@@ -76,6 +77,7 @@ function App() {
                       <Route path="/products" element={<ProductListingPage />} />
                       <Route path="/product/:id" element={<ProductDetailPage />} />
                       <Route path="/product/:id/edit" element={<ProductEditPage />} />
+                      <Route path="/admin/products/new" element={<ProductCreatePage />} />
                       <Route path="/cart" element={<CartPage />} />
                       <Route path="/checkout" element={<CheckoutPage />} />
                       <Route path="/login" element={<LoginPage />} />
@@ -84,8 +86,8 @@ function App() {
                       <Route path="/orders" element={<OrdersPage />} />
                       <Route path="/track-order/:orderId" element={<TrackOrderPage />} />
                       <Route path="/wishlist" element={<WishlistPage />} />
-                      <Route path="/seller/dashboard" element={<SellerDashboard />} />
                       <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                      <Route path="/admin/categories" element={<CategoryManagementPage />} />
                       <Route path="/buyer/dashboard" element={<BuyerDashboard />} />
                       <Route path="/notifications" element={<NotificationCenter />} />
                       <Route path="/messages" element={<MessagesPage />} />

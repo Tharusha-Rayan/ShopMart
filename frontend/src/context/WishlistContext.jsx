@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { wishlistAPI } from '../services/api';
+import { wishlistAPI, productAPI } from '../services/api';
 import { useAuth } from './AuthContext';
 import { toast } from 'react-toastify';
 
@@ -18,14 +18,72 @@ export const WishlistProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useAuth();
 
+  const normalizeWishlistItem = (item) => {
+    const product = item?.product || item;
+    if (!product || typeof product !== 'object') return null;
+
+    const parsedPrice = Number(product.price ?? product.originalPrice ?? 0);
+    const price = Number.isFinite(parsedPrice) ? parsedPrice : 0;
+
+    const parsedOriginal = Number(product.originalPrice ?? price);
+    const originalPrice = Number.isFinite(parsedOriginal) ? parsedOriginal : price;
+
+    const parsedDiscount = Number(product.discount ?? 0);
+    const discount = Number.isFinite(parsedDiscount) && parsedDiscount > 0 ? parsedDiscount : 0;
+
+    const parsedDiscountPrice = Number(
+      product.discountPrice ?? (discount > 0 ? (price * (1 - discount / 100)).toFixed(2) : price)
+    );
+    const discountPrice = Number.isFinite(parsedDiscountPrice) ? parsedDiscountPrice : price;
+
+    return {
+      ...product,
+      _id: product._id || product.id || item?.product || item?._id || item?.id,
+      price,
+      originalPrice,
+      discount,
+      discountPrice
+    };
+  };
+
+  const mapWishlistProducts = (products = []) => {
+    return products.map(normalizeWishlistItem).filter(Boolean);
+  };
+
+  const hydrateGuestWishlist = async (items = []) => {
+    const hydrated = await Promise.all(items.map(async (entry) => {
+      if (entry?.price != null || entry?.discountPrice != null || entry?.originalPrice != null) {
+        return normalizeWishlistItem(entry);
+      }
+
+      const productId = entry?._id || entry?.id || entry;
+      if (!productId) return null;
+
+      try {
+        const { data } = await productAPI.getOne(productId);
+        return normalizeWishlistItem(data?.data || { _id: productId });
+      } catch {
+        return normalizeWishlistItem(entry);
+      }
+    }));
+
+    return hydrated.filter(Boolean);
+  };
+
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchWishlist();
-    } else {
-      // Load from localStorage for guest users
-      const localWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      setWishlist(localWishlist);
-    }
+    const loadWishlist = async () => {
+      if (isAuthenticated) {
+        fetchWishlist();
+      } else {
+        // Load from localStorage for guest users and hydrate id-only entries.
+        const localWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+        const hydratedWishlist = await hydrateGuestWishlist(localWishlist);
+        setWishlist(hydratedWishlist);
+        localStorage.setItem('wishlist', JSON.stringify(hydratedWishlist));
+      }
+    };
+
+    loadWishlist();
   }, [isAuthenticated]);
 
   const fetchWishlist = async () => {
@@ -33,7 +91,7 @@ export const WishlistProvider = ({ children }) => {
       setLoading(true);
       const { data } = await wishlistAPI.get();
       const products = data.data?.products || [];
-      setWishlist(products.map(item => item.product || item));
+      setWishlist(mapWishlistProducts(products));
     } catch (error) {
       console.error('Failed to fetch wishlist:', error);
       setWishlist([]);
@@ -48,11 +106,30 @@ export const WishlistProvider = ({ children }) => {
       if (isAuthenticated) {
         const { data } = await wishlistAPI.add(productId);
         const products = data.data?.products || [];
-        setWishlist(products.map(item => item.product || item));
+        setWishlist(mapWishlistProducts(products));
       } else {
         // Local wishlist for guest users
-        const productObj = typeof product === 'object' ? product : { _id: product };
-        const newWishlist = [...wishlist, productObj];
+        let productObj = typeof product === 'object' ? product : null;
+
+        if (!productObj && productId) {
+          try {
+            const { data } = await productAPI.getOne(productId);
+            productObj = data?.data || { _id: productId };
+          } catch {
+            productObj = { _id: productId };
+          }
+        }
+
+        const normalizedProduct = normalizeWishlistItem(productObj);
+        if (!normalizedProduct) return;
+
+        const alreadyExists = wishlist.some(item => item._id === normalizedProduct._id);
+        if (alreadyExists) {
+          toast.info('Already in wishlist');
+          return;
+        }
+
+        const newWishlist = [...wishlist, normalizedProduct];
         setWishlist(newWishlist);
         localStorage.setItem('wishlist', JSON.stringify(newWishlist));
       }
@@ -66,9 +143,8 @@ export const WishlistProvider = ({ children }) => {
   const removeFromWishlist = async (productId) => {
     try {
       if (isAuthenticated) {
-        const { data } = await wishlistAPI.remove(productId);
-        const products = data.data?.products || [];
-        setWishlist(products.map(item => item.product || item));
+        await wishlistAPI.remove(productId);
+        await fetchWishlist();
       } else {
         const newWishlist = wishlist.filter(item => item._id !== productId);
         setWishlist(newWishlist);

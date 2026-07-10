@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { Trash2, ShoppingCart, Star } from 'lucide-react';
+import { resolveImageUrl } from '../../utils/imageUrl';
 import './WishlistCard.css';
 
 const WishlistCard = ({ product }) => {
@@ -32,21 +33,16 @@ const WishlistCard = ({ product }) => {
 
   const discount = product.discount || 0;
   const finalPrice = product.price * (1 - discount / 100);
+  const imageUrl = resolveImageUrl(product.images?.[0]?.url || product.images?.[0]);
 
   return (
     <div className="wishlist-card-horizontal">
       <Link to={`/product/${product._id}`} className="wishlist-card-image">
-        <img 
-          src={
-            product.images?.[0]?.url || 
-            product.images?.[0] || 
-            `https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop`
-          } 
-          alt={product.name}
-          onError={(e) => {
-            e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop';
-          }}
-        />
+        {imageUrl ? (
+          <img src={imageUrl} alt={product.name} />
+        ) : (
+          <div className="wishlist-image-empty">No image available</div>
+        )}
         {discount > 0 && (
           <div className="wishlist-discount-badge">-{discount}%</div>
         )}

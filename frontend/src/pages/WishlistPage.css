@@ -94,6 +94,13 @@
   min-height: calc(100vh - 140px);
 }
 
+.wishlist-empty .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 .empty-state {
   text-align: center;
   max-width: 400px;
@@ -237,6 +244,13 @@
   font-size: 0.95rem;
   line-height: 1.5;
   margin: 0 0 1rem 0;
+}
+
+.item-meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4b5563;
+  font-weight: 500;
 }
 
 .item-price {

@@ -1,5 +1,8 @@
+const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const logger = require('../utils/logger');
+
+dotenv.config();
 
 const connectDB = async () => {
   try {
@@ -16,10 +19,20 @@ const connectDB = async () => {
       error &&
       (error.code === 'ENOTFOUND' ||
         (typeof error.message === 'string' && error.message.includes('querySrv ENOTFOUND')));
+    const isAuthIssue =
+      error &&
+      typeof error.message === 'string' &&
+      error.message.toLowerCase().includes('bad auth');
 
     if (isDnsIssue) {
       const hint =
         'MongoDB DNS lookup failed. Check MONGODB_URI host in backend/.env and verify Atlas cluster hostname exists.';
+      logger.error(`MongoDB Connection Error: ${error.message}. ${hint}`);
+      console.error(`MongoDB Connection Error: ${error.message}`);
+      console.error(hint);
+    } else if (isAuthIssue) {
+      const hint =
+        'MongoDB authentication failed. Check the username and password in backend/.env, and make sure any special characters in the password are URL-encoded in the connection string.';
       logger.error(`MongoDB Connection Error: ${error.message}. ${hint}`);
       console.error(`MongoDB Connection Error: ${error.message}`);
       console.error(hint);

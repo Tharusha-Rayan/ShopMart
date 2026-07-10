@@ -52,8 +52,9 @@ exports.processMultipleImages = async (files, options = {}) => {
   for (const file of files) {
     try {
       const processedPath = await this.processImage(file.path, options);
+      const normalizedUrl = processedPath.replace(/\\/g, '/').replace(/^uploads\//, '/uploads/');
       processedImages.push({
-        url: processedPath.replace(/\\/g, '/'),
+        url: normalizedUrl,
         public_id: path.basename(processedPath, path.extname(processedPath))
       });
     } catch (error) {
@@ -90,7 +91,7 @@ exports.generateThumbnails = async (filePath) => {
 
     thumbnails.push({
       size: size.suffix,
-      url: outputPath.replace(/\\/g, '/')
+      url: outputPath.replace(/\\/g, '/').replace(/^uploads\//, '/uploads/')
     });
   }
 

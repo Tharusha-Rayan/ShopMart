@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import ProductCard from '../components/product/ProductCard';
+import { resolveImageUrl } from '../utils/imageUrl';
 import { Heart, Star, ShoppingCart, Truck, Shield, MessageSquare, FileText } from 'lucide-react';
 import { toast } from 'react-toastify';
 import './ProductDetailPage.css';
@@ -27,6 +28,7 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState('');
   const [activeTab, setActiveTab] = useState('description');
+  const productImages = Array.isArray(product?.images) ? product.images : [];
 
   useEffect(() => {
     fetchProduct();
@@ -120,14 +122,14 @@ const ProductDetailPage = () => {
         <div className="product-detail-grid">
           <div className="product-images">
             <div className="main-image">
-              <img 
-                src={product.images[selectedImage]?.url || `https://source.unsplash.com/800x800/?${encodeURIComponent(product.category?.name || 'product')},${encodeURIComponent(product.name?.split(' ')[0] || 'shopping')}`} 
-                alt={product.name}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=800&fit=crop';
-                }}
-              />
+              {productImages[selectedImage]?.url ? (
+                <img 
+                  src={resolveImageUrl(productImages[selectedImage].url)} 
+                  alt={product.name}
+                />
+              ) : (
+                <div className="main-image-empty">No image available</div>
+              )}
               <button 
                 className={`wishlist-btn ${isInWishlist(product._id) ? 'active' : ''}`}
                 onClick={handleWishlistToggle}
@@ -136,10 +138,10 @@ const ProductDetailPage = () => {
               </button>
             </div>
             <div className="image-thumbnails">
-              {product.images.map((img, idx) => (
+              {productImages.map((img, idx) => (
                 <img
                   key={idx}
-                  src={img.url}
+                  src={resolveImageUrl(img.url)}
                   alt={`${product.name} ${idx + 1}`}
                   className={selectedImage === idx ? 'active' : ''}
                   onClick={() => setSelectedImage(idx)}

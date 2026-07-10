@@ -106,6 +106,26 @@
   z-index: 1001;
 }
 
+.mobile-menu-top,
+.mobile-menu-main,
+.mobile-menu-auth {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mobile-menu-main {
+  margin-top: 0.25rem;
+}
+
+.mobile-menu-auth {
+  margin-top: 0.25rem;
+}
+
+.mobile-logout-bottom {
+  margin-top: auto;
+}
+
 .mobile-menu-item {
   display: block;
   width: 100%;
@@ -128,9 +148,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 4px 8px;
+  padding: 0.75rem 0.75rem;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 
@@ -184,6 +204,7 @@
 
 .user-dropdown {
   position: absolute;
+  text-decoration: none;
   top: calc(100% + 10px);
   right: 0;
   background: white;
@@ -215,7 +236,7 @@
   background: var(--border-gray);
 }
 
-.user-dropdown-item {
+/* .user-dropdown-item {
   display: block;
   padding: 0.75rem 1rem;
   color: var(--text-dark);
@@ -227,12 +248,74 @@
   cursor: pointer;
   transition: background 0.3s ease;
   font-size: 1rem;
+} */
+
+
+
+/* improved dropdown item hover */
+.user-dropdown-item {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--text-dark);
+  text-decoration: none;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  position: relative;
 }
 
+/* hover effect */
 .user-dropdown-item:hover {
   background: var(--bg-gray);
   color: var(--primary-blue);
+  text-decoration: none;
+  transform: translateX(4px);
 }
+
+.user-dropdown-item:focus,
+.user-dropdown-item:active {
+  text-decoration: none;
+}
+
+/* optional left accent bar on hover */
+.user-dropdown-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  background: var(--primary-blue);
+  border-radius: 0 4px 4px 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* show accent bar on hover */
+.user-dropdown-item:hover::before {
+  opacity: 1;
+}
+
+/* better logout hover */
+.logout-btn:hover {
+  background: #ffecec;
+  color: var(--highlight-red);
+}
+
+
+
+
+
+
+
+/* .user-dropdown-item:hover {
+  background: var(--bg-gray);
+  color: var(--primary-blue);
+} */
 
 .logout-btn {
   color: var(--highlight-red);
@@ -242,10 +325,10 @@
 .profileicon {
   display: flex;
   align-items: center;
-  gap: 0.75rem; 
+  gap: 0.75rem;
   padding: 4px 8px;
-  background: rgba(255, 255, 255, 0.1); 
-  border-radius: 12px; 
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
@@ -260,11 +343,11 @@
   font-size: 0.95rem;
   display: flex;
   align-items: center;
-  gap: 0.35rem; 
+  gap: 0.35rem;
 }
 
 .username svg {
-  font-size: 1.1rem; 
+  font-size: 1.1rem;
   color: white;
 }
 
@@ -286,7 +369,7 @@
     gap: 0.5rem;
   }
 
-  .navbar-actions > :not(:last-child) {
+  .navbar-actions> :not(:last-child) {
     display: none;
   }
 
@@ -346,7 +429,7 @@
     order: 2;
   }
 
-  .navbar-actions > :not(:last-child) {
+  .navbar-actions> :not(:last-child) {
     display: none;
   }
 
@@ -419,7 +502,7 @@
     min-width: 0;
   }
 
-  .navbar-actions > :not(:last-child) {
+  .navbar-actions> :not(:last-child) {
     display: none;
   }
 

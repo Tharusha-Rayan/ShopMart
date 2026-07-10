@@ -241,7 +241,11 @@ const TrackOrderPage = () => {
               <div className="order-items">
                 {order.items.map((item, index) => (
                   <div key={index} className="order-item">
-                    <img src={item.image || '/placeholder.jpg'} alt={item.name} />
+                    {resolveImageUrl(item.image) ? (
+                      <img src={resolveImageUrl(item.image)} alt={item.name} />
+                    ) : (
+                      <div className="order-item-image-empty">No image</div>
+                    )}
                     <div className="item-details">
                       <h4>{item.name}</h4>
                       <p>Quantity: {item.quantity}</p>
@@ -323,7 +327,11 @@ const TrackOrderPage = () => {
               <div className="modal-body">
                 {selectedProduct && (
                   <div className="review-product-info">
-                    <img src={selectedProduct.image || '/placeholder.jpg'} alt={selectedProduct.name} />
+                    {resolveImageUrl(selectedProduct.image) ? (
+                      <img src={resolveImageUrl(selectedProduct.image)} alt={selectedProduct.name} />
+                    ) : (
+                      <div className="review-product-image-empty">No image</div>
+                    )}
                     <h4>{selectedProduct.name}</h4>
                   </div>
                 )}

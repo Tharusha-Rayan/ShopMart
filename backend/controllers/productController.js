@@ -1,5 +1,56 @@
 const Product = require('../models/Product');
-const { processMultipleImages } = require('../utils/imageProcessor');
+const mongoose = require('mongoose');
+
+const normalizeImageEntry = (entry) => {
+  if (typeof entry === 'string') {
+    const url = entry.trim();
+    if (!url) {
+      return null;
+    }
+
+    return {
+      url,
+      public_id: null
+    };
+  }
+
+  if (entry && typeof entry === 'object' && entry.url) {
+    return {
+      url: String(entry.url).trim(),
+      public_id: entry.public_id || null
+    };
+  }
+
+  return null;
+};
+
+const normalizeProductImages = (imagesInput) => {
+  if (!imagesInput) {
+    return [];
+  }
+
+  let images = imagesInput;
+
+  if (typeof imagesInput === 'string') {
+    try {
+      images = JSON.parse(imagesInput);
+    } catch (error) {
+      images = imagesInput
+        .split(/[,\n]/)
+        .map((value) => value.trim())
+        .filter(Boolean)
+        .map((url) => ({ url, public_id: null }));
+    }
+  }
+
+  if (!Array.isArray(images)) {
+    images = [images];
+  }
+
+  return images
+    .map(normalizeImageEntry)
+    .filter(Boolean);
+};
 
 // @desc    Get all products with pagination, search, and filters
 // @route   GET /api/products
@@ -120,15 +171,47 @@ exports.createProduct = async (req, res, next) => {
     // Add seller to req.body
     req.body.seller = req.user.id;
 
-    // Process images if uploaded
-    if (req.files && req.files.length > 0) {
-      const images = await processMultipleImages(req.files, {
-        width: 1200,
-        quality: 80,
-        format: 'webp'
+    if (!mongoose.Types.ObjectId.isValid(req.body.category)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Please select a valid category'
       });
-      req.body.images = images;
     }
+
+    if (req.body.specifications && typeof req.body.specifications === 'string') {
+      try {
+        req.body.specifications = JSON.parse(req.body.specifications);
+      } catch (e) {
+        req.body.specifications = {};
+      }
+    }
+
+    const hasPricingInputs = req.body.basePrice !== undefined || req.body.profitPercentage !== undefined;
+    if (hasPricingInputs) {
+      const basePrice = Number(req.body.basePrice ?? req.body.price);
+      const profitPercentage = Number(req.body.profitPercentage ?? 0);
+
+      if (Number.isNaN(basePrice) || basePrice < 0) {
+        return res.status(400).json({ success: false, error: 'Base price must be a number greater than or equal to 0' });
+      }
+      if (Number.isNaN(profitPercentage) || profitPercentage < 0) {
+        return res.status(400).json({ success: false, error: 'Profit percentage must be a number greater than or equal to 0' });
+      }
+
+      req.body.basePrice = basePrice;
+      req.body.profitPercentage = profitPercentage;
+      req.body.price = Number((basePrice * (1 + profitPercentage / 100)).toFixed(2));
+    } else {
+      const price = Number(req.body.price);
+      if (Number.isNaN(price) || price < 0) {
+        return res.status(400).json({ success: false, error: 'Price must be a number greater than or equal to 0' });
+      }
+      req.body.price = price;
+      req.body.basePrice = price;
+      req.body.profitPercentage = 0;
+    }
+
+    req.body.images = normalizeProductImages(req.body.images);
 
     const product = await Product.create(req.body);
 
@@ -172,27 +255,26 @@ exports.updateProduct = async (req, res, next) => {
       }
     }
 
-    // Handle existing images
-    let productImages = product.images || [];
-    if (req.body.existingImages) {
-      try {
-        productImages = typeof req.body.existingImages === 'string' 
-          ? JSON.parse(req.body.existingImages) 
-          : req.body.existingImages;
-      } catch (e) {
-        productImages = [];
+    const hasPricingInputs = req.body.basePrice !== undefined || req.body.profitPercentage !== undefined;
+    if (hasPricingInputs) {
+      const basePrice = Number(req.body.basePrice ?? product.basePrice ?? req.body.price ?? product.price);
+      const profitPercentage = Number(req.body.profitPercentage ?? product.profitPercentage ?? 0);
+
+      if (Number.isNaN(basePrice) || basePrice < 0) {
+        return res.status(400).json({ success: false, error: 'Base price must be a number greater than or equal to 0' });
       }
-      delete req.body.existingImages;
+      if (Number.isNaN(profitPercentage) || profitPercentage < 0) {
+        return res.status(400).json({ success: false, error: 'Profit percentage must be a number greater than or equal to 0' });
+      }
+
+      req.body.basePrice = basePrice;
+      req.body.profitPercentage = profitPercentage;
+      req.body.price = Number((basePrice * (1 + profitPercentage / 100)).toFixed(2));
     }
 
-    // Process new images if uploaded
-    if (req.files && req.files.length > 0) {
-      const newImages = await processMultipleImages(req.files, {
-        width: 1200,
-        quality: 80,
-        format: 'webp'
-      });
-      productImages = [...productImages, ...newImages];
+    let productImages = product.images || [];
+    if (req.body.images !== undefined) {
+      productImages = normalizeProductImages(req.body.images);
     }
 
     req.body.images = productImages;

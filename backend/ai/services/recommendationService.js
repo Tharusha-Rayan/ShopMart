@@ -78,7 +78,7 @@ const scoreCandidate = ({ candidate, targetProduct, userProductScores, categoryA
     score += Math.min(categoryAffinity.get(categoryId) * 0.9, 20);
   }
 
-  if (targetProduct) {nnn
+  if (targetProduct) {
     const targetCategory = targetProduct.category ? targetProduct.category.toString() : null;
     if (targetCategory && categoryId && targetCategory === categoryId) {
       score += 10;
@@ -159,6 +159,7 @@ const getRecommendations = async ({ userId, sessionId, productId, limit: rawLimi
     query,
     {
       name: 1,
+      description: 1,
       price: 1,
       images: 1,
       rating: 1,

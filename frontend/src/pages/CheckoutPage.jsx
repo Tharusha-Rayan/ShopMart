@@ -8,6 +8,7 @@ import Input from '../components/common/Input';
 import Card from '../components/common/Card';
 import { toast } from 'react-toastify';
 import { CreditCard, MapPin } from 'lucide-react';
+import { resolveImageUrl } from '../utils/imageUrl';
 import './CheckoutPage.css';
 
 const CheckoutPage = () => {
@@ -253,7 +254,11 @@ const CheckoutPage = () => {
                     const product = item.product || item;
                     return (
                     <div key={product._id} className="summary-item">
-                      <img src={product.images?.[0]?.url || '/placeholder.jpg'} alt={product.name} />
+                      {resolveImageUrl(product.images?.[0]?.url) ? (
+                        <img src={resolveImageUrl(product.images?.[0]?.url)} alt={product.name} />
+                      ) : (
+                        <div className="summary-item-image-empty">No image</div>
+                      )}
                       <div className="summary-item-details">
                         <p>{product.name}</p>
                         <span>Qty: {item.quantity}</span>

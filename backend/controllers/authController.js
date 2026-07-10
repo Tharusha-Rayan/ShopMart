@@ -8,7 +8,7 @@ const { sendVerificationEmail, sendPasswordResetEmail } = require('../utils/emai
 // @access  Public
 exports.register = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -24,7 +24,7 @@ exports.register = async (req, res, next) => {
       name,
       email,
       password,
-      role: role || 'buyer'
+      role: 'buyer'
     });
 
     // Generate verification token
@@ -87,6 +87,14 @@ exports.login = async (req, res, next) => {
         success: false,
         error: 'Your account has been banned',
         reason: user.banReason
+      });
+    }
+
+    // Simple edition: seller accounts are disabled from logging in.
+    if (user.role === 'seller') {
+      return res.status(403).json({
+        success: false,
+        error: 'Seller login is disabled in the simple edition. Use the admin account for store management.'
       });
     }
 

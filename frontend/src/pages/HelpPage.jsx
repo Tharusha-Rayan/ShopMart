@@ -32,8 +32,8 @@ const HelpPage = () => {
       answer: 'Please contact our support team immediately with photos of the damaged item. We will arrange a replacement or refund based on the situation.'
     },
     {
-      question: 'How do I become a seller?',
-      answer: 'Click on "Become a Seller" in the footer and fill out the application form. Our team will review and approve your application within 2-3 business days.'
+      question: 'How can I contact support quickly?',
+      answer: 'Use the Contact page and include your order ID if related. Our support team will respond during business hours.'
     },
     {
       question: 'Are my payment details secure?',
